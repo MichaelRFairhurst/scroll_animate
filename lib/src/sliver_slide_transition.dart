@@ -6,25 +6,48 @@ class SliverSlideTransition extends StatelessWidget {
   final Widget second;
   final double duration;
 
+  final Key? key;
+  final double? height;
+  final double? width;
+  final BoxConstraints? constraints;
+  final AlignmentGeometry? alignment;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
+
   SliverSlideTransition({
     required this.duration,
     required this.first,
     required this.second,
+    this.key,
+    this.height,
+    this.width,
+    this.constraints,
+    this.alignment,
+    this.padding,
+    this.margin,
   });
 
   Widget build(BuildContext context) {
     return SliverFreezeAnimation(
       duration: duration,
       builder: (context, progress) {
-        return Container(height: 150, child: Flow(
-          delegate: SliverSlideTransitionFlowDelegate(
-            progress,
+        return Container(
+          height: height,
+          width: width,
+          constraints: constraints,
+          alignment: alignment,
+          padding: padding,
+          margin: margin,
+          child: Flow(
+            delegate: SliverSlideTransitionFlowDelegate(
+              progress,
+            ),
+            children: <Widget>[
+              first,
+              second,
+            ],
           ),
-          children: <Widget>[
-            first,
-            second,
-          ],
-        ));
+        );
       },
     );
   }

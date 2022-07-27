@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide SliverFadeTransition;
 import 'package:scroll_animate/src/sliver_fade_transition.dart';
 import 'package:scroll_animate/src/sliver_slide_transition.dart';
 import 'package:scroll_animate/src/sliver_freeze.dart';
+import 'package:scroll_animate/src/sliver_parallax.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,81 +19,149 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class RoundedBox extends StatelessWidget {
+  final double? height;
+  final double? width;
+  final Color color;
+  final String? text;
 
-  final String title;
+  RoundedBox({this.height, this.width, required this.color, this.text});
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      margin: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.all(Radius.circular(16.0)),
+      ),
+      child: Center(
+        child: Text(
+          text ?? "",
+          style: TextStyle(fontSize: 16)),
+      ),
+    );
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-
-  final scrollController = ScrollController();
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final colors = <Color>[
+      Color(0xFF028E9E),
+      Color(0xFF59163E),
+      Color(0xFF7BCF55),
+      Color(0xFF4748A1),
+      Color(0xFFD17452),
+      Color(0xFF34D8EB),
+      Color(0xFFABA693),
+      Color(0xFFB57D9F),
+      Color(0xFFC9AA2C),
+      Color(0xFF6F70B3),
+      Color(0xFF8C4971),
+    ];
+
+    int colorIndex = 0;
+    Color nextColor() => colors[colorIndex++];
+    
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Parallax Demo'),
       ),
       body: CustomScrollView(
-        controller: scrollController,
         slivers: <Widget>[
-          SliverFadeTransition(
-            duration: 400,
-            first: Container(
-              height: 150,
-              color: Colors.red,
-            ),
-            second: Container(
-              height: 150,
-              color: Colors.blue,
+          SliverAppBar(
+            expandedHeight: 150,
+            backgroundColor: Colors.white,
+            flexibleSpace: RoundedBox(
+              color: nextColor(),
+              text: "SliverAppBar",
             ),
           ),
           SliverSlideTransition(
             duration: 400,
-            first: Container(
-              height: 150,
-              color: Colors.green,
+            height: 150,
+            first: RoundedBox(
+              color: nextColor(),
+              text: "SliverSlideTransition",
             ),
-            second: Container(
-              height: 150,
-              color: Colors.red,
+            second: RoundedBox(
+              color: nextColor(),
+              text: "...",
+            ),
+          ),
+          SliverFadeTransition(
+            duration: 400,
+            height: 150,
+            first: RoundedBox(
+              color: nextColor(),
+              text: "SliverFadeTransition",
+            ),
+            second: RoundedBox(
+              color: nextColor(),
+              text: "...",
             ),
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                return Image.asset(
-                  "fluttercodeimg.jpeg",
-                  key: ValueKey(index),
-                  fit: BoxFit.cover,
+                return RoundedBox(
+                  height: 150 - 32,
+                  color: colors[index],
+                  text: "SliverList item",
                 );
               },
               childCount: 10,
             ),
           ),
-          SliverFreeze(
-            duration: 400,
-            child: Container(
-              color: Color.fromARGB(0x80, 0x00, 0xFF, 0x00),
-              height: 150,
+          SliverParallax(
+            mainAxisFactor: 0.5,
+            crossAxisFactor: 0.1,
+            offset: Offset(50, 500),
+            child: RoundedBox(
+              height: 50,
+              width: 100,
+              color: nextColor(),
+              text: "SliverParallax",
+            ),
+          ),
+          SliverParallax(
+            mainAxisFactor: -0.25,
+            crossAxisFactor: 0.2,
+            offset: Offset(150, 500),
+            child: RoundedBox(
+              height: 50,
+              width: 100,
+              color: nextColor(),
+              text: "SliverParallax",
+            ),
+          ),
+          SliverParallax(
+            mainAxisFactor: 0.8,
+            crossAxisFactor: -0.05,
+            offset: Offset(250, 500),
+            child: RoundedBox(
+              height: 50,
+              width: 100,
+              color: nextColor(),
+              text: "SliverParallax",
             ),
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                return Image.asset(
-                  "fluttercodeimg.jpeg",
-                  key: ValueKey(index),
-                  fit: BoxFit.cover,
+                return RoundedBox(
+                  height: 150,
+                  color: colors[index],
+                  text: "SliverList item",
                 );
               },
               childCount: 10,
