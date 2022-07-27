@@ -8,12 +8,14 @@ class SliverParallax extends SingleChildRenderObjectWidget {
   final double mainAxisFactor;
   final double crossAxisFactor;
   final double scrollExtent;
+  final double layoutExtent;
   final Offset offset;
 
   SliverParallax({
     this.mainAxisFactor = 1.0,
     this.crossAxisFactor = 0.0,
     this.scrollExtent = 0.0,
+    this.layoutExtent = 0.0,
     this.offset = const Offset(0, 0),
     required this.child,
   });
@@ -24,6 +26,7 @@ class SliverParallax extends SingleChildRenderObjectWidget {
            mainAxisFactor: mainAxisFactor,
            crossAxisFactor: crossAxisFactor,
            scrollExtent: scrollExtent,
+           layoutExtent: layoutExtent,
            scrollable: Scrollable.of(context)!,
            offset: offset,
          );
@@ -34,6 +37,7 @@ class RenderSliverParallax extends RenderSliverSingleBoxAdapter {
   final double mainAxisFactor;
   final double crossAxisFactor;
   final double scrollExtent;
+  final double layoutExtent;
   final ScrollableState scrollable;
   final Offset offset;
 
@@ -41,6 +45,7 @@ class RenderSliverParallax extends RenderSliverSingleBoxAdapter {
     required this.mainAxisFactor,
     required this.crossAxisFactor,
     required this.scrollExtent,
+    required this.layoutExtent,
     required this.scrollable,
     required this.offset,
   }) {
@@ -73,7 +78,7 @@ class RenderSliverParallax extends RenderSliverSingleBoxAdapter {
     //assert(paintedChildSize.isFinite);
     //assert(paintedChildSize >= 0.0);
     geometry = SliverGeometry(
-      layoutExtent: 0,
+      layoutExtent: layoutExtent,
       scrollExtent: scrollExtent,
       paintExtent: childExtent,
       cacheExtent: cacheExtent,

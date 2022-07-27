@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/animation.dart';
 import 'package:scroll_animate/src/sliver_freeze.dart';
 
-class SliverFreezeAnimation<T> extends StatelessWidget {
+class SliverFreezeTweenAnimation<T> extends StatelessWidget {
   final Widget Function(BuildContext, T) builder;
   final double duration;
   final Animatable<T> tween;

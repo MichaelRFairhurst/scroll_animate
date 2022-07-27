@@ -30,9 +30,10 @@ class SliverSlideTransition extends StatelessWidget {
   });
 
   Widget build(BuildContext context) {
-    return SliverFreezeAnimation(
+    return SliverFreezeAnimation<double>(
       duration: duration,
       curve: curve,
+      tween: Tween<double>(begin: 0.0, end: 1.0),
       builder: (context, progress) {
         return Container(
           height: height,

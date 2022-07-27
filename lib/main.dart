@@ -3,6 +3,7 @@ import 'package:flutter/animation.dart';
 import 'package:scroll_animate/src/sliver_fade_transition.dart';
 import 'package:scroll_animate/src/sliver_slide_transition.dart';
 import 'package:scroll_animate/src/sliver_freeze.dart';
+import 'package:scroll_animate/src/sliver_freeze_resize.dart';
 import 'package:scroll_animate/src/sliver_parallax.dart';
 
 void main() {
@@ -113,6 +114,36 @@ class MyHomePage extends StatelessWidget {
               text: "...",
             ),
           ),
+          SliverFreezeResize(
+            duration: 800,
+            curve: Curves.ease,
+            sizeTween: TweenSequence<Size?>(
+              <TweenSequenceItem<Size?>>[
+                TweenSequenceItem<Size?>(
+                  tween: SizeTween(
+                    begin: Size(0, 150),
+                    end: Size(0, 350),
+                  ),
+                  weight: 1,
+                ),
+                TweenSequenceItem<Size?>(
+                  tween: ConstantTween<Size?>(Size(0, 350)),
+                  weight: 1,
+                ),
+                TweenSequenceItem<Size?>(
+                  tween: SizeTween(
+                    begin: Size(0, 350),
+                    end: Size(0, 150),
+                  ),
+                  weight: 1,
+                ),
+              ],
+            ),
+            child: RoundedBox(
+              color: nextColor(),
+              text: "SliverFreezeResize",
+            ),
+          ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
@@ -131,29 +162,29 @@ class MyHomePage extends StatelessWidget {
             offset: Offset(50, 500),
             child: RoundedBox(
               height: 50,
-              width: 100,
+              width: 100 - 16,
               color: nextColor(),
               text: "SliverParallax",
             ),
           ),
           SliverParallax(
-            mainAxisFactor: -0.25,
+            mainAxisFactor: -0.2,
             crossAxisFactor: 0.2,
             offset: Offset(150, 500),
             child: RoundedBox(
               height: 50,
-              width: 100,
+              width: 100 - 16,
               color: nextColor(),
               text: "SliverParallax",
             ),
           ),
           SliverParallax(
-            mainAxisFactor: 0.8,
+            mainAxisFactor: 0.7,
             crossAxisFactor: -0.05,
             offset: Offset(250, 500),
             child: RoundedBox(
               height: 50,
-              width: 100,
+              width: 100 - 16,
               color: nextColor(),
               text: "SliverParallax",
             ),

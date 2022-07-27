@@ -30,11 +30,12 @@ class SliverFadeTransition extends StatelessWidget {
   });
 
   Widget build(BuildContext context) {
-    return SliverFreezeAnimation(
+    return SliverFreezeAnimation<double>(
       key: key,
       duration: duration,
       curve: curve,
-      builder: (BuildContext, progress) {
+      tween: Tween<double>(begin: 1.0, end: 0.0),
+      builder: (BuildContext, opacity) {
         return Container(
           height: height,
           width: width,
@@ -44,10 +45,10 @@ class SliverFadeTransition extends StatelessWidget {
           margin: margin,
           child: Stack(
             children: <Widget>[
-              if (progress != 0.0)
+              if (opacity != 1.0)
                 second,
               Opacity(
-                opacity: 1.0 - progress,
+                opacity: opacity,
                 child: first,
               ),
             ],
