@@ -5,6 +5,7 @@ class SliverSlideTransition extends StatelessWidget {
   final Widget first;
   final Widget second;
   final double duration;
+  final Curve? curve;
 
   final Key? key;
   final double? height;
@@ -18,6 +19,7 @@ class SliverSlideTransition extends StatelessWidget {
     required this.duration,
     required this.first,
     required this.second,
+    this.curve,
     this.key,
     this.height,
     this.width,
@@ -30,6 +32,7 @@ class SliverSlideTransition extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverFreezeAnimation(
       duration: duration,
+      curve: curve,
       builder: (context, progress) {
         return Container(
           height: height,

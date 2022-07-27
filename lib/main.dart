@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' hide SliverFadeTransition;
+import 'package:flutter/animation.dart';
 import 'package:scroll_animate/src/sliver_fade_transition.dart';
 import 'package:scroll_animate/src/sliver_slide_transition.dart';
 import 'package:scroll_animate/src/sliver_freeze.dart';
@@ -87,8 +88,9 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           SliverSlideTransition(
-            duration: 400,
+            duration: 500,
             height: 150,
+            curve: Curves.ease,
             first: RoundedBox(
               color: nextColor(),
               text: "SliverSlideTransition",
@@ -101,6 +103,7 @@ class MyHomePage extends StatelessWidget {
           SliverFadeTransition(
             duration: 400,
             height: 150,
+            curve: Curves.ease,
             first: RoundedBox(
               color: nextColor(),
               text: "SliverFadeTransition",
