@@ -30,28 +30,99 @@ class SliverParallax extends SingleChildRenderObjectWidget {
            scrollable: Scrollable.of(context)!,
            offset: offset,
          );
+
+  @override
+  void updateRenderObject(BuildContext context, RenderSliverParallax renderObject) {
+    renderObject.mainAxisFactor = mainAxisFactor;
+    renderObject.crossAxisFactor = crossAxisFactor;
+    renderObject.scrollExtent = scrollExtent;
+    renderObject.layoutExtent = layoutExtent;
+    renderObject.scrollable = Scrollable.of(context)!;
+    renderObject.offset = offset;
+  }
  
 }
 
 class RenderSliverParallax extends RenderSliverSingleBoxAdapter {
-  final double mainAxisFactor;
-  final double crossAxisFactor;
-  final double scrollExtent;
-  final double layoutExtent;
-  final ScrollableState scrollable;
-  final Offset offset;
+  double _mainAxisFactor;
+  double _crossAxisFactor;
+  double _scrollExtent;
+  double _layoutExtent;
+  ScrollableState _scrollable;
+  Offset _offset;
+
+  void set mainAxisFactor(double mainAxisFactor) {
+    if (mainAxisFactor != _mainAxisFactor) {
+      markNeedsLayout();
+    }
+    _mainAxisFactor = mainAxisFactor;
+  }
+
+  double get mainAxisFactor => _mainAxisFactor;
+
+  void set crossAxisFactor(double crossAxisFactor) {
+    if (crossAxisFactor != _crossAxisFactor) {
+      markNeedsLayout();
+    }
+    _crossAxisFactor = crossAxisFactor;
+  }
+
+  double get crossAxisFactor => _crossAxisFactor;
+
+  void set scrollExtent(double scrollExtent) {
+    if (scrollExtent != _scrollExtent) {
+      markNeedsLayout();
+    }
+    _scrollExtent = scrollExtent;
+  }
+
+  double get scrollExtent => _scrollExtent;
+
+  void set layoutExtent(double layoutExtent) {
+    if (layoutExtent != _layoutExtent) {
+      markNeedsLayout();
+    }
+    _layoutExtent = layoutExtent;
+  }
+
+  double get layoutExtent => _layoutExtent;
+
+  void set scrollable(ScrollableState scrollable) {
+    if (!identical(scrollable, _scrollable)) {
+      scrollable.position.removeListener(markNeedsLayout);
+      markNeedsLayout();
+    }
+    _scrollable = scrollable;
+    scrollable.position.addListener(markNeedsLayout);
+  }
+
+  ScrollableState get scrollable => _scrollable;
+
+  void set offset(Offset offset) {
+    if (offset != _offset) {
+      markNeedsLayout();
+    }
+    _offset = offset;
+  }
+
+  Offset get offset => _offset;
 
   RenderSliverParallax({
-    required this.mainAxisFactor,
-    required this.crossAxisFactor,
-    required this.scrollExtent,
-    required this.layoutExtent,
-    required this.scrollable,
-    required this.offset,
-  }) {
-    scrollable.position.addListener(() {
-      markNeedsLayout();
-    });
+    required double mainAxisFactor,
+    required double crossAxisFactor,
+    required double scrollExtent,
+    required double layoutExtent,
+    required ScrollableState scrollable,
+    required Offset offset,
+  }) :
+    _mainAxisFactor = mainAxisFactor,
+    _crossAxisFactor = crossAxisFactor,
+    _scrollExtent = scrollExtent,
+    _layoutExtent = layoutExtent,
+    _scrollable = scrollable,
+    _offset = offset
+    {
+    _scrollable.position.addListener(markNeedsLayout);
   }
 
   @override

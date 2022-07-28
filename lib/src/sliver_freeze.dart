@@ -15,14 +15,25 @@ class SliverFreeze extends SingleChildRenderObjectWidget {
   @override
   RenderObject createRenderObject(BuildContext context)
       => RenderSliverFreeze(duration: duration);
- 
+
+  @override
+  void updateRenderObject(BuildContext context, RenderSliverFreeze renderObject) {
+    renderObject.duration = duration;
+  }
 }
 
 class RenderSliverFreeze extends RenderSliverSingleBoxAdapter {
 
-  final double duration;
+  double _duration;
 
-  RenderSliverFreeze({required this.duration});
+  void set duration(double duration) {
+    markNeedsLayout();
+    _duration = duration;
+  }
+
+  double get duration => _duration;
+
+  RenderSliverFreeze({required double duration}) : _duration = duration;
 
   @override
   void performLayout() {
