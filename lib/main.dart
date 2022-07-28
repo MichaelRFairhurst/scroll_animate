@@ -1,8 +1,10 @@
+import 'dart:math';
 import 'package:flutter/material.dart' hide SliverFadeTransition;
 import 'package:flutter/animation.dart';
 import 'package:scroll_animate/src/sliver_fade_transition.dart';
 import 'package:scroll_animate/src/sliver_slide_transition.dart';
 import 'package:scroll_animate/src/sliver_freeze.dart';
+import 'package:scroll_animate/src/sliver_freeze_animation.dart';
 import 'package:scroll_animate/src/sliver_freeze_resize.dart';
 import 'package:scroll_animate/src/sliver_parallax.dart';
 
@@ -39,6 +41,7 @@ class RoundedBox extends StatelessWidget {
       height: height,
       width: width,
       margin: EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.all(Radius.circular(16.0)),
@@ -143,6 +146,33 @@ class MyHomePage extends StatelessWidget {
               color: nextColor(),
               text: "SliverFreezeResize",
             ),
+          ),
+          SliverFreezeAnimation<double>(
+            duration: 800,
+            tween: Tween(begin: 0.0, end: 2*pi),
+            builder: (context, angle) {
+              return Stack(
+                children: <Widget>[
+                  RoundedBox(
+                    color: colors[0],
+                    height: 300,
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(50),
+                    child: Transform.rotate(
+                      angle: angle,
+                      child: RoundedBox(
+                        color: colors[1],
+                        width: 200,
+                        height: 200,
+                        text: "SliverFreezeAnimation",
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
