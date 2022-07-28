@@ -89,7 +89,7 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           SliverSlideTransition(
-            duration: 500,
+            duration: 400,
             height: 150,
             curve: Curves.ease,
             first: RoundedBox(
@@ -117,23 +117,23 @@ class MyHomePage extends StatelessWidget {
           SliverFreezeResize(
             duration: 800,
             curve: Curves.ease,
-            sizeTween: TweenSequence<Size?>(
-              <TweenSequenceItem<Size?>>[
-                TweenSequenceItem<Size?>(
-                  tween: SizeTween(
-                    begin: Size(0, 150),
-                    end: Size(0, 350),
+            mainAxisExtentTween: TweenSequence<double>(
+              <TweenSequenceItem<double>>[
+                TweenSequenceItem<double>(
+                  tween: Tween(
+                    begin: 150.0,
+                    end: 350.0,
                   ),
                   weight: 1,
                 ),
-                TweenSequenceItem<Size?>(
-                  tween: ConstantTween<Size?>(Size(0, 350)),
-                  weight: 1,
+                TweenSequenceItem<double>(
+                  tween: ConstantTween<double>(350.0),
+                  weight: 2,
                 ),
-                TweenSequenceItem<Size?>(
-                  tween: SizeTween(
-                    begin: Size(0, 350),
-                    end: Size(0, 150),
+                TweenSequenceItem<double>(
+                  tween: Tween(
+                    begin: 350.0,
+                    end: 150.0,
                   ),
                   weight: 1,
                 ),
@@ -158,8 +158,8 @@ class MyHomePage extends StatelessWidget {
           ),
           SliverParallax(
             mainAxisFactor: 0.5,
-            crossAxisFactor: 0.1,
-            offset: Offset(50, 500),
+            crossAxisFactor: 0.2,
+            offset: Offset(50, 450),
             child: RoundedBox(
               height: 50,
               width: 100 - 16,

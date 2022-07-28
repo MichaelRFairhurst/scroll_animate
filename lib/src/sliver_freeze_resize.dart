@@ -4,7 +4,7 @@ import 'package:flutter/animation.dart';
 import 'package:scroll_animate/src/sliver_freeze_animation.dart';
 
 class SliverFreezeResize extends StatelessWidget {
-  final Animatable<Size?> sizeTween;
+  final Animatable<double> mainAxisExtentTween;
   final Widget? child;
   final double duration;
   final Curve? curve;
@@ -12,22 +12,22 @@ class SliverFreezeResize extends StatelessWidget {
 
   SliverFreezeResize({
     required this.duration,
-    required this.sizeTween,
+    required this.mainAxisExtentTween,
     this.child,
     this.curve,
     this.key,
   });
 
   Widget build(BuildContext context) {
-    return SliverFreezeAnimation<Size?>(
+    return SliverFreezeAnimation<double>(
       key: key,
       duration: duration,
       curve: curve,
-      tween: sizeTween,
-      builder: (context, size) {
+      tween: mainAxisExtentTween,
+      builder: (context, extent) {
         return SizedBox(
-          height: size!.height,
-          width: size.width,
+          height: extent,
+          width: extent,
           child: child,
         );
       },
