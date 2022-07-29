@@ -1,6 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart' hide SliverFadeTransition;
 import 'package:flutter/animation.dart';
+import 'package:flutter/rendering.dart';
+import 'package:scroll_animate/src/entrance_policy.dart';
+import 'package:scroll_animate/src/sliver_entrance_animation_builder.dart';
 import 'package:scroll_animate/src/sliver_fade_transition.dart';
 import 'package:scroll_animate/src/sliver_slide_transition.dart';
 import 'package:scroll_animate/src/sliver_freeze.dart';
@@ -55,14 +58,42 @@ class RoundedBox extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => MyHomePageState();
+}
+
+class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+
+  late AnimationController _controller;
+  late AnimationController _controller2;
+  late Animation<double> _opacityAnimation;
+  late Animation<double> _opacityAnimation2;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    );
+
+    _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(_controller);
+
+    _controller2 = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    );
+    _opacityAnimation2 = Tween(begin: 0.0, end: 1.0).animate(_controller2);
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = <Color>[
       Color(0xFF028E9E),
-      Color(0xFF59163E),
+      //Color(0xFF59163E),
       Color(0xFF7BCF55),
       Color(0xFF4748A1),
       Color(0xFFD17452),
@@ -78,17 +109,13 @@ class MyHomePage extends StatelessWidget {
     Color nextColor() => colors[colorIndex++];
     
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Parallax Demo'),
-      ),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
             expandedHeight: 150,
-            backgroundColor: Colors.transparent,
-            flexibleSpace: RoundedBox(
-              color: nextColor(),
-              text: "SliverAppBar",
+            backgroundColor: nextColor(),
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text("SliverAppBar"),
             ),
           ),
           SliverSlideTransition(
@@ -116,6 +143,34 @@ class MyHomePage extends StatelessWidget {
               color: nextColor(),
               text: "...",
             ),
+          ),
+          SliverFreezeAnimation<double>(
+            duration: 800,
+            curve: Curves.ease,
+            tween: Tween(begin: 0.0, end: 2*pi),
+            builder: (context, angle) {
+              return Stack(
+                children: <Widget>[
+                  RoundedBox(
+                    color: colors[0],
+                    height: 300,
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(50),
+                    child: Transform.rotate(
+                      angle: angle,
+                      child: RoundedBox(
+                        color: colors[1],
+                        width: 200,
+                        height: 200,
+                        text: "SliverFreezeAnimation",
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           SliverFreezeResize(
             duration: 800,
@@ -147,31 +202,41 @@ class MyHomePage extends StatelessWidget {
               text: "SliverFreezeResize",
             ),
           ),
-          SliverFreezeAnimation<double>(
-            duration: 800,
-            curve: Curves.ease,
-            tween: Tween(begin: 0.0, end: 2*pi),
-            builder: (context, angle) {
-              return Stack(
-                children: <Widget>[
-                  RoundedBox(
-                    color: colors[0],
-                    height: 300,
+          SliverEntranceAnimationBuilder(
+            controller: _controller,
+            entrancePolicy: EntrancePolicy.scrollBeyondBottomEdge(),
+            builder: (context, _) {
+              return SliverToBoxAdapter(
+                child: Opacity(
+                  opacity: _opacityAnimation.value,
+                  child: RoundedBox(
+                    color: colors[2],
+                    height: 150,
+                    text: "SliverEntranceAnimationBuilder",
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(50),
-                    child: Transform.rotate(
-                      angle: angle,
-                      child: RoundedBox(
-                        color: colors[1],
-                        width: 200,
-                        height: 200,
-                        text: "SliverFreezeAnimation",
-                      ),
-                    ),
+                ),
+              );
+            },
+          ),
+          SliverEntranceAnimationBuilder(
+            controller: _controller2,
+            entrancePolicy: EntrancePolicy.scrollBeyondBottomEdge(),
+            builder: (context, _) {
+              return SliverOpacity(
+                opacity: _opacityAnimation2.value,
+                sliver: SliverSlideTransition(
+                  duration: 400,
+                  height: 150,
+                  curve: Curves.ease,
+                  first: RoundedBox(
+                    color: colors[3],
+                      text: "SliverEntranceAnimationBuilder",
                   ),
-                ],
+                  second: RoundedBox(
+                    color: colors[4],
+                    text: "withSliverSlideTransition",
+                  ),
+                ),
               );
             },
           ),
@@ -196,36 +261,39 @@ class MyHomePage extends StatelessWidget {
           ),
           SliverParallax(
             mainAxisFactor: 0.5,
-            crossAxisFactor: 0.2,
-            offset: Offset(50, 500),
+            crossAxisFactor: -0.4,
+            center: ParallaxScrollCenter.relativePx(-100),
+            offset: Offset(0, 100),
             child: RoundedBox(
-              height: 50,
-              width: 100 - 16,
+              height: 150,
               color: nextColor(),
               text: "SliverParallax",
             ),
           ),
           SliverParallax(
             mainAxisFactor: -0.2,
-            crossAxisFactor: 0.2,
-            offset: Offset(150, 500),
+            crossAxisFactor: 0.4,
+            offset: Offset(0, 100 + 150 + 32),
+            center: ParallaxScrollCenter.relativePx(-100),
             child: RoundedBox(
-              height: 50,
-              width: 100 - 16,
+              height: 150,
               color: nextColor(),
               text: "SliverParallax",
             ),
           ),
           SliverParallax(
             mainAxisFactor: 0.7,
-            crossAxisFactor: -0.05,
-            offset: Offset(250, 500),
+            crossAxisFactor: -0.7,
+            offset: Offset(0, 100 + (150 + 32) * 2),
+            center: ParallaxScrollCenter.relativePx(-100),
             child: RoundedBox(
-              height: 50,
-              width: 100 - 16,
+              height: 150,
               color: nextColor(),
               text: "SliverParallax",
             ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(height: (150+16*2)*3),
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -240,10 +308,7 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           SliverParallax(
-            center: ParallaxScrollCenter(
-              0.0,
-              type: ParallaxOffsetType.absolutePixels
-            ),
+            center: ParallaxScrollCenter.absolutePx(0.0),
             mainAxisFactor: 0.05,
             child: Container(
               height: MediaQuery.of(context).size.height*2,
