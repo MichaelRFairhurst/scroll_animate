@@ -85,7 +85,7 @@ class MyHomePage extends StatelessWidget {
         slivers: <Widget>[
           SliverAppBar(
             expandedHeight: 150,
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
             flexibleSpace: RoundedBox(
               color: nextColor(),
               text: "SliverAppBar",
@@ -149,6 +149,7 @@ class MyHomePage extends StatelessWidget {
           ),
           SliverFreezeAnimation<double>(
             duration: 800,
+            curve: Curves.ease,
             tween: Tween(begin: 0.0, end: 2*pi),
             builder: (context, angle) {
               return Stack(
@@ -186,10 +187,17 @@ class MyHomePage extends StatelessWidget {
               childCount: 10,
             ),
           ),
+          SliverToBoxAdapter(
+            child: RoundedBox(
+              color: nextColor(),
+              height: 150,
+              text: "Parallax Below Here",
+            ),
+          ),
           SliverParallax(
             mainAxisFactor: 0.5,
             crossAxisFactor: 0.2,
-            offset: Offset(50, 450),
+            offset: Offset(50, 500),
             child: RoundedBox(
               height: 50,
               width: 100 - 16,
@@ -229,6 +237,21 @@ class MyHomePage extends StatelessWidget {
                 );
               },
               childCount: 10,
+            ),
+          ),
+          SliverParallax(
+            center: ParallaxScrollCenter(
+              0.0,
+              type: ParallaxOffsetType.absolutePixels
+            ),
+            mainAxisFactor: 0.05,
+            child: Container(
+              height: MediaQuery.of(context).size.height*2,
+              width: MediaQuery.of(context).size.width,
+              child: Image.asset(
+                "fluttercodeimg.jpeg",
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ],
