@@ -5,8 +5,6 @@ import 'package:flutter/rendering.dart';
 enum ParallaxOffsetType {
   relativePixels,
   absolutePixels,
-  //relativeScaledToViewport,
-  //absoluteScaledToViewports,
 }
 
 class ParallaxScrollCenter {
@@ -17,6 +15,14 @@ class ParallaxScrollCenter {
     this.value,
     {ParallaxOffsetType? type}
   ) : type = type ?? ParallaxOffsetType.absolutePixels;
+
+  ParallaxScrollCenter.absolutePx(
+    this.value,
+  ) : type = ParallaxOffsetType.absolutePixels;
+
+  ParallaxScrollCenter.relativePx(
+    this.value,
+  ) : type = ParallaxOffsetType.relativePixels;
 
   double centerPixelValue(double precedingScroll) {
     switch (type) {
@@ -29,12 +35,10 @@ class ParallaxScrollCenter {
 }
 
 class SliverParallax extends SingleChildRenderObjectWidget {
-
   final Widget child;
   final double mainAxisFactor;
   final double crossAxisFactor;
   final double scrollExtent;
-  final double layoutExtent;
   final Offset offset;
   final ParallaxScrollCenter center;
 
@@ -42,7 +46,6 @@ class SliverParallax extends SingleChildRenderObjectWidget {
     this.mainAxisFactor = 1.0,
     this.crossAxisFactor = 0.0,
     this.scrollExtent = 0.0,
-    this.layoutExtent = 0.0,
     this.offset = const Offset(0, 0),
     ParallaxScrollCenter? center,
     required this.child,
@@ -55,7 +58,6 @@ class SliverParallax extends SingleChildRenderObjectWidget {
            mainAxisFactor: mainAxisFactor,
            crossAxisFactor: crossAxisFactor,
            scrollExtent: scrollExtent,
-           layoutExtent: layoutExtent,
            scrollable: Scrollable.of(context)!,
            offset: offset,
            center: center,
@@ -66,7 +68,6 @@ class SliverParallax extends SingleChildRenderObjectWidget {
     renderObject.mainAxisFactor = mainAxisFactor;
     renderObject.crossAxisFactor = crossAxisFactor;
     renderObject.scrollExtent = scrollExtent;
-    renderObject.layoutExtent = layoutExtent;
     renderObject.scrollable = Scrollable.of(context)!;
     renderObject.offset = offset;
     renderObject.center = center;
@@ -78,7 +79,6 @@ class RenderSliverParallax extends RenderSliverSingleBoxAdapter {
   double _mainAxisFactor;
   double _crossAxisFactor;
   double _scrollExtent;
-  double _layoutExtent;
   ScrollableState _scrollable;
   Offset _offset;
   ParallaxScrollCenter _center;
@@ -109,15 +109,6 @@ class RenderSliverParallax extends RenderSliverSingleBoxAdapter {
   }
 
   double get scrollExtent => _scrollExtent;
-
-  void set layoutExtent(double layoutExtent) {
-    if (layoutExtent != _layoutExtent) {
-      markNeedsLayout();
-    }
-    _layoutExtent = layoutExtent;
-  }
-
-  double get layoutExtent => _layoutExtent;
 
   void set scrollable(ScrollableState scrollable) {
     if (!identical(scrollable, _scrollable)) {
@@ -152,7 +143,6 @@ class RenderSliverParallax extends RenderSliverSingleBoxAdapter {
     required double mainAxisFactor,
     required double crossAxisFactor,
     required double scrollExtent,
-    required double layoutExtent,
     required ScrollableState scrollable,
     required Offset offset,
     required ParallaxScrollCenter center,
@@ -160,7 +150,6 @@ class RenderSliverParallax extends RenderSliverSingleBoxAdapter {
     _mainAxisFactor = mainAxisFactor,
     _crossAxisFactor = crossAxisFactor,
     _scrollExtent = scrollExtent,
-    _layoutExtent = layoutExtent,
     _scrollable = scrollable,
     _offset = offset,
     _center = center
@@ -177,7 +166,7 @@ class RenderSliverParallax extends RenderSliverSingleBoxAdapter {
       return;
     }
     final SliverConstraints constraints = this.constraints;
-    child!.layout(BoxConstraints(), parentUsesSize: true);
+    child!.layout(BoxConstraints(maxWidth: constraints.crossAxisExtent), parentUsesSize: true);
     final double childExtent;
     switch (constraints.axis) {
       case Axis.horizontal:
@@ -191,26 +180,21 @@ class RenderSliverParallax extends RenderSliverSingleBoxAdapter {
 
     final centralOffset = center.centerPixelValue(constraints.precedingScrollExtent);
     final scaleableScrollAmount = scrollable.position.pixels - centralOffset;
-    final scaledScrollMainAxis = scaleableScrollAmount * mainAxisFactor;
+
+    final scaledScrollMainAxis = scaleableScrollAmount * -mainAxisFactor;
     final scaledScrollCrossAxis = scaleableScrollAmount * crossAxisFactor;
+    _paintOffset = Offset(scaledScrollCrossAxis, scaledScrollMainAxis);
 
-    _paintOffset = Offset(scaledScrollCrossAxis, -scaledScrollMainAxis);
-    //final double paintedChildSize = calculatePaintOffset(constraints, from: 0.0, to: childExtent);
-    //final double cacheExtent = calculateCacheOffset(constraints, from: 0.0, to: childExtent);
-
-    //assert(paintedChildSize.isFinite);
-    //assert(paintedChildSize >= 0.0);
     geometry = SliverGeometry(
-      layoutExtent: layoutExtent,
+      paintOrigin: 0.0,
+      layoutExtent: 0.0,
       scrollExtent: scrollExtent,
       paintExtent: 0.0,
       cacheExtent: 0.0,
-      maxPaintExtent: 0.0,//childExtent,
+      maxPaintExtent: 0.0,
       hitTestExtent: 0.0,//childExtent,
       visible: true,
     );
-    //final SliverPhysicalParentData childParentData = child!.parentData! as SliverPhysicalParentData;
-    //childParentData.paintOffset = Offset(0.0, 0.0);
   }
 
   @override
