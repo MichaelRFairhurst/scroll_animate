@@ -4,6 +4,7 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:scroll_animate/src/entrance_policy.dart';
 import 'package:scroll_animate/src/sliver_entrance_animation_builder.dart';
+import 'package:scroll_animate/src/sliver_entrance_animation.dart';
 import 'package:scroll_animate/src/sliver_fade_transition.dart';
 import 'package:scroll_animate/src/sliver_slide_transition.dart';
 import 'package:scroll_animate/src/sliver_freeze.dart';
@@ -58,42 +59,13 @@ class RoundedBox extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => MyHomePageState();
-}
-
-class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-
-  late AnimationController _controller;
-  late AnimationController _controller2;
-  late Animation<double> _opacityAnimation;
-  late Animation<double> _opacityAnimation2;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 1),
-      vsync: this,
-    );
-
-    _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(_controller);
-
-    _controller2 = AnimationController(
-      duration: const Duration(seconds: 1),
-      vsync: this,
-    );
-    _opacityAnimation2 = Tween(begin: 0.0, end: 1.0).animate(_controller2);
-  }
 
   @override
   Widget build(BuildContext context) {
     final colors = <Color>[
       Color(0xFF028E9E),
-      //Color(0xFF59163E),
       Color(0xFF7BCF55),
       Color(0xFF4748A1),
       Color(0xFFD17452),
@@ -202,13 +174,15 @@ class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               text: "SliverFreezeResize",
             ),
           ),
-          SliverEntranceAnimationBuilder(
-            controller: _controller,
+          SliverEntranceAnimation<double>(
+            duration: Duration(seconds: 1),
+            curve: Curves.ease,
+            tween: Tween(begin: 0.0, end: 1.0),
             entrancePolicy: EntrancePolicy.scrollBeyondBottomEdge(),
-            builder: (context, _) {
+            builder: (context, opacity, _) {
               return SliverToBoxAdapter(
                 child: Opacity(
-                  opacity: _opacityAnimation.value,
+                  opacity: opacity,
                   child: RoundedBox(
                     color: colors[2],
                     height: 150,
@@ -218,12 +192,14 @@ class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               );
             },
           ),
-          SliverEntranceAnimationBuilder(
-            controller: _controller2,
+          SliverEntranceAnimation<double>(
+            duration: Duration(seconds: 1),
+            curve: Curves.ease,
+            tween: Tween(begin: 0.0, end: 1.0),
             entrancePolicy: EntrancePolicy.scrollBeyondBottomEdge(),
-            builder: (context, _) {
+            builder: (context, opacity, _) {
               return SliverOpacity(
-                opacity: _opacityAnimation2.value,
+                opacity: opacity,
                 sliver: SliverSlideTransition(
                   duration: 400,
                   height: 150,
