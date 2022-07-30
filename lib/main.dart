@@ -2,15 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart' hide SliverFadeTransition;
 import 'package:flutter/animation.dart';
 import 'package:flutter/rendering.dart';
-import 'package:scroll_animate/src/entrance_policy.dart';
-import 'package:scroll_animate/src/sliver_entrance_animation_builder.dart';
-import 'package:scroll_animate/src/sliver_entrance_animation.dart';
-import 'package:scroll_animate/src/sliver_fade_transition.dart';
-import 'package:scroll_animate/src/sliver_slide_transition.dart';
-import 'package:scroll_animate/src/sliver_freeze.dart';
-import 'package:scroll_animate/src/sliver_freeze_animation.dart';
-import 'package:scroll_animate/src/sliver_freeze_resize.dart';
-import 'package:scroll_animate/src/sliver_parallax.dart';
+import 'package:scroll_animate/scroll_animate.dart';
 
 void main() {
   runApp(const MyApp());

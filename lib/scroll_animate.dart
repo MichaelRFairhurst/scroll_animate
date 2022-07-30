@@ -1,2 +1,10 @@
-export 'package:scroll_animate/src/sliver_parallax.dart';
+export 'package:scroll_animate/src/entrance_policy.dart';
+export 'package:scroll_animate/src/sliver_enter_exit_callback.dart';
+export 'package:scroll_animate/src/sliver_entrance_animation.dart';
+export 'package:scroll_animate/src/sliver_entrance_animation_builder.dart';
+export 'package:scroll_animate/src/sliver_fade_transition.dart';
+export 'package:scroll_animate/src/sliver_freeze.dart';
 export 'package:scroll_animate/src/sliver_freeze_animation.dart';
+export 'package:scroll_animate/src/sliver_freeze_resize.dart';
+export 'package:scroll_animate/src/sliver_parallax.dart';
+export 'package:scroll_animate/src/sliver_slide_transition.dart';
