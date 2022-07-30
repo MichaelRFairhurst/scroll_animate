@@ -178,7 +178,7 @@ class MyHomePage extends StatelessWidget {
                   child: RoundedBox(
                     color: colors[2],
                     height: 150,
-                    text: "SliverEntranceAnimationBuilder",
+                    text: "SliverEntranceAnimation",
                   ),
                 ),
               );
@@ -198,11 +198,11 @@ class MyHomePage extends StatelessWidget {
                   curve: Curves.ease,
                   first: RoundedBox(
                     color: colors[3],
-                      text: "SliverEntranceAnimationBuilder",
+                      text: "SliverEntranceAnimation",
                   ),
                   second: RoundedBox(
                     color: colors[4],
-                    text: "withSliverSlideTransition",
+                    text: "... with SliverSlideTransition",
                   ),
                 ),
               );
