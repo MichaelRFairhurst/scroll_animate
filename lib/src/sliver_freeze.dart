@@ -2,11 +2,25 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+/// A sliver that temporarily freezes at the top of screen during scroll.
+///
+/// This makes most sense when the widget is fullscreen and/or has an animation
+/// of some kind (see [SliverFreezeAnimation]), allowing you to create a sort of
+/// scroll-navigation effect between pages, similar to a `PageView`.
+///
+/// The duration of the fade is specified in pixels the user will have to scroll
+/// before it becomes unfrozen.
 class SliverFreeze extends SingleChildRenderObjectWidget {
 
   final Widget child;
   final double duration;
 
+  /// Create a [SliverFreeze].
+  ///
+  /// `duration`: This is specified in pixels that the user will have to scroll
+  /// before the child widget is unfrozen.
+  ///
+  /// `child`: the contents of this sliver.
   SliverFreeze({
     required this.duration,
     required this.child,
@@ -14,15 +28,15 @@ class SliverFreeze extends SingleChildRenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context)
-      => RenderSliverFreeze(duration: duration);
+      => _RenderSliverFreeze(duration: duration);
 
   @override
-  void updateRenderObject(BuildContext context, RenderSliverFreeze renderObject) {
+  void updateRenderObject(BuildContext context, _RenderSliverFreeze renderObject) {
     renderObject.duration = duration;
   }
 }
 
-class RenderSliverFreeze extends RenderSliverSingleBoxAdapter {
+class _RenderSliverFreeze extends RenderSliverSingleBoxAdapter {
 
   double _duration;
 
@@ -33,7 +47,7 @@ class RenderSliverFreeze extends RenderSliverSingleBoxAdapter {
 
   double get duration => _duration;
 
-  RenderSliverFreeze({required double duration}) : _duration = duration;
+  _RenderSliverFreeze({required double duration}) : _duration = duration;
 
   @override
   void performLayout() {

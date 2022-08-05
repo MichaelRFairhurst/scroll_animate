@@ -1,5 +1,6 @@
 export 'package:scroll_animate/src/entrance_policy.dart';
 export 'package:scroll_animate/src/sliver_enter_exit_callback.dart';
+export 'package:scroll_animate/src/sliver_enter_exit_callback_wrapper.dart';
 export 'package:scroll_animate/src/sliver_entrance_animation.dart';
 export 'package:scroll_animate/src/sliver_entrance_animation_builder.dart';
 export 'package:scroll_animate/src/sliver_fade_transition.dart';
