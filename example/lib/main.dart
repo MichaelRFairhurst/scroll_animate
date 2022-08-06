@@ -172,14 +172,12 @@ class MyHomePage extends StatelessWidget {
             tween: Tween(begin: 0.0, end: 1.0),
             entrancePolicy: EntrancePolicy.scrollBeyondBottomEdge(),
             builder: (context, opacity, _) {
-              return SliverToBoxAdapter(
-                child: Opacity(
-                  opacity: opacity,
-                  child: RoundedBox(
-                    color: colors[2],
-                    height: 150,
-                    text: "SliverEntranceAnimation",
-                  ),
+              return Opacity(
+                opacity: opacity,
+                child: RoundedBox(
+                  color: colors[2],
+                  height: 150,
+                  text: "SliverEntranceAnimation",
                 ),
               );
             },
@@ -189,7 +187,7 @@ class MyHomePage extends StatelessWidget {
             curve: Curves.ease,
             tween: Tween(begin: 0.0, end: 1.0),
             entrancePolicy: EntrancePolicy.scrollBeyondBottomEdge(),
-            builder: (context, opacity, _) {
+            sliverBuilder: (context, opacity, _) {
               return SliverOpacity(
                 opacity: opacity,
                 sliver: SliverSlideTransition(
@@ -282,7 +280,7 @@ class MyHomePage extends StatelessWidget {
               height: MediaQuery.of(context).size.height*2,
               width: MediaQuery.of(context).size.width,
               child: Image.asset(
-                "fluttercodeimg.jpeg",
+                "assets/fluttercodeimg.jpeg",
                 fit: BoxFit.cover,
               ),
             ),
