@@ -65,7 +65,7 @@ class SliverEntranceAnimationBuilder extends StatelessWidget {
           onExit: () {
             controller.reverse();
           },
-          sliver: builder == null
+          sliver: builder != null
             ? SliverToBoxAdapter(
                 child: builder!(context, child),
               )

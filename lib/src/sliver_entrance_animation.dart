@@ -110,7 +110,7 @@ class SliverEntranceAnimationState<T> extends State<SliverEntranceAnimation<T>> 
     return SliverEntranceAnimationBuilder(
       controller: _animationController,
       entrancePolicy: widget.entrancePolicy,
-      builder: (context, child) {
+      sliverBuilder: (context, child) {
         if (widget.builder != null) {
           return SliverToBoxAdapter(
             child: widget.builder!(context, _animation.value, child)
