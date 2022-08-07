@@ -14,8 +14,7 @@ Widget build(BuildContext context) {
     slivers: <Widget>[
       // Any scroll_animate widgets that start with `Sliver` here!
       SliverEntranceAnimation(...),
-      SliverFreezeAnimation(...),
-      SliverFreezeAnimation(...),
+      SliverSuspendedAnimation(...),
     ],
   );
 }
@@ -168,9 +167,9 @@ class MyState extends State<MyWidget> {
 For performance reasons, you may specify a `child` widget which is not rebuilt
 on animation. This is then passed into the `builder` callback.
 
-### SliverFreezeAnimation
+### SliverSuspendedAnimation
 
-A sliver that freezes in place and begins an animation when it reaches the top
+A sliver that suspends in place and begins an animation when it reaches the top
 of a scroll view, and then continues to scroll when the animation is complete.
 
 Can be an especially nice effect when the widget is set to match the size of
@@ -179,18 +178,18 @@ the screen, creating a sort of `PageView` effect, with feedback between
 
 The type parameter `T` refers to the type of the value that is being
 animated. For instance, to animate opacity you would construct a
-`SliverFreezeAnimation<double>`.
+`SliverSuspendedAnimation<double>`.
 
 The value will be animated through a range based on the provided tween,
 and as the value changes, the [builder] function will be invoked with the
 current value to create the widget that is rendered.
 
-The duration of the freeze is specified in pixels the user will have to
-scroll before it becomes unfrozen.
+The duration of the suspension is specified in pixels the user will have to
+scroll before it becomes revitalized and scrolls again.
 
 ```dart
 // Provide a type argument for what you're animating.
-SliverFreezeAnimation<Color?>(
+SliverSuspendedAnimation<Color?>(
   duration: 200.0, // specified in pixels of scroll
   curve: Curves.ease, // Optional
 
@@ -205,31 +204,31 @@ SliverFreezeAnimation<Color?>(
   // Provide a Tween for the animation value range
   tween: ColorTween(
     begin: Colors.red, // Red before scrolled to top
-    end: Colors.blue, // Animates to blue before unfreezing
+    end: Colors.blue, // Animates to blue before scrolling again
   ),
 )
 ```
 
-### SliverFreeze
+### SliverSuspend
 
-A sliver which freezes in place once it is scrolled to the top of the page. It
-will stay frozen in the top of the scroll view until the user has continued to
-scroll a specified amount.
+A sliver which suspends in place once it is scrolled to the top of the page. It
+will stay suspended in the top of the scroll view until the user has continued
+to scroll a specified amount.
 
 This can be a useful effect, especially when the child is the size of the
 screen, creating an effect similar to a `PageView`. This is usually best done
-with a `SliverFreezeAnimation`.
+with a `SliverSuspendedAnimation`.
 
 ```dart
-SliverFreeze(
+SliverSuspend(
   duration: 200.0, // specified in pixels of scroll
   child: Container(...)
 )
 ```
 
-### SliverFreezeResize
+### SliverSuspendedResize
 
-A sliver that freezes in place and then resizes when scrolled to the top of
+A sliver that suspends in place and then resizes when scrolled to the top of
 screen, before continuing to scroll.
 
 The size transition is defined by the `mainAxisExtentTween`, which determines
@@ -240,11 +239,11 @@ The child widget will be put in a `SizedBox` which changes size during scroll.
 Remember that with the right [Curve] and/or [Tween] it is possible to create
 some highly dynamic effects, for instance, [TweenSequence].
 
-The duration of the freeze is specified in pixels the user will have to scroll
-before it becomes unfrozen.
+The duration of the suspension is specified in pixels the user will have to
+scroll before it becomes revitalized and scrolls again.
 
 ```dart
-SliverFreezeResize(
+SliverSuspendedResize(
   duration: 200.0, // specified in pixels of scroll
   curve: Curves.ease, // Optional
 
@@ -258,9 +257,9 @@ SliverFreezeResize(
 )
 ```
 
-### SliverFadeTransition
+### SliverSuspendedFadeTransition
 
-A sliver that freezes in place at the top of the scrollview and crossfades
+A sliver that suspends in place at the top of the scrollview and crossfades
 between two widgets before continuing to scroll.
 
 The minimum necessary to use this widget is to provide two children; the [first]
@@ -268,10 +267,10 @@ and [second], and a duration. However, there may be issues sizing the children,
 and for this reason there are a variety of sizing parameters available as well.
 
 The duration of the fade is specified in pixels the user will have to scroll
-before it becomes unfrozen.
+before it completes and scrolls again.
 
 ```dart
-SliverFadeTransition(
+SliverSuspendedFadeTransition(
   duration: 200.0, // specified in pixels of scroll
   curve: Curves.ease, // Optional
 
@@ -280,9 +279,9 @@ SliverFadeTransition(
 )
 ```
 
-### SliverSlideTransition
+### SliverSuspendedSlideTransition
 
-A sliver that freezes in place at the top of the scrollview and performs a
+A sliver that suspends in place at the top of the scrollview and performs a
 swipe/slide type transition between two widgets before continuing to scroll.
 
 The minimum necessary to use this widget is to provide two children; the [first]
@@ -290,10 +289,10 @@ and [second], and a duration. However, there may be issues sizing the children,
 and for this reason there are a variety of sizing parameters available as well.
 
 The duration of the slide is specified in pixels the user will have to scroll
-before it becomes unfrozen.
+before it becomes revitalized and scrolls again.
 
 ```dart
-SliverSlideTransition(
+SliverSuspendedSlideTransition(
   duration: 200.0, // specified in pixels of scroll
   curve: Curves.ease, // Optional
 

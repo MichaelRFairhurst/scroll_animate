@@ -2,41 +2,41 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-/// A sliver that temporarily freezes at the top of screen during scroll.
+/// A sliver that temporarily suspends at the top of screen during scroll.
 ///
 /// This makes most sense when the widget is fullscreen and/or has an animation
-/// of some kind (see [SliverFreezeAnimation]), allowing you to create a sort of
-/// scroll-navigation effect between pages, similar to a `PageView`.
+/// of some kind (see [SliverSuspendedAnimation]), allowing you to create a sort
+/// of scroll-navigation effect between pages, similar to a `PageView`.
 ///
-/// The duration of the fade is specified in pixels the user will have to scroll
-/// before it becomes unfrozen.
-class SliverFreeze extends SingleChildRenderObjectWidget {
+/// The duration of the suspension is specified in pixels the user will have to
+/// scroll before it becomes revitalized and scrolls again.
+class SliverSuspend extends SingleChildRenderObjectWidget {
 
   final Widget child;
   final double duration;
 
-  /// Create a [SliverFreeze].
+  /// Create a [SliverSuspend].
   ///
   /// `duration`: This is specified in pixels that the user will have to scroll
-  /// before the child widget is unfrozen.
+  /// before the child widget is revitalized and scrolls again.
   ///
   /// `child`: the contents of this sliver.
-  SliverFreeze({
+  SliverSuspend({
     required this.duration,
     required this.child,
   });
 
   @override
   RenderObject createRenderObject(BuildContext context)
-      => _RenderSliverFreeze(duration: duration);
+      => _RenderSliverSuspend(duration: duration);
 
   @override
-  void updateRenderObject(BuildContext context, _RenderSliverFreeze renderObject) {
+  void updateRenderObject(BuildContext context, _RenderSliverSuspend renderObject) {
     renderObject.duration = duration;
   }
 }
 
-class _RenderSliverFreeze extends RenderSliverSingleBoxAdapter {
+class _RenderSliverSuspend extends RenderSliverSingleBoxAdapter {
 
   double _duration;
 
@@ -47,7 +47,7 @@ class _RenderSliverFreeze extends RenderSliverSingleBoxAdapter {
 
   double get duration => _duration;
 
-  _RenderSliverFreeze({required double duration}) : _duration = duration;
+  _RenderSliverSuspend({required double duration}) : _duration = duration;
 
   @override
   void performLayout() {

@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:flutter/material.dart' hide SliverFadeTransition;
+import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:scroll_animate/scroll_animate.dart';
@@ -47,16 +47,16 @@ class MyHomePage extends StatelessWidget {
             builder: (context) => DemoAll(),
           ),
           _singleWidgetLauncher(_demoSliverEntranceAnimation()),
-          _singleWidgetLauncher(_demoSliverFreezeAnimation()),
+          _singleWidgetLauncher(_demoSliverSuspendedAnimation()),
           _demoLauncher(
              text: "SliverParallax Demo",
              builder: (context) => _demoSliverParallax(context),
           ),
           _singleWidgetLauncher(_demoSliverParallaxBackground()),
-          _singleWidgetLauncher(_demoSliverSlide()),
-          _singleWidgetLauncher(_demoSliverFade()),
-          _singleWidgetLauncher(_demoSliverResize()),
-          _singleWidgetLauncher(_demoSliverFreeze()),
+          _singleWidgetLauncher(_demoSliverSuspendedSlide()),
+          _singleWidgetLauncher(_demoSliverSuspendedFade()),
+          _singleWidgetLauncher(_demoSliverSuspendedResize()),
+          _singleWidgetLauncher(_demoSliverSuspend()),
         ],
       ),
     );
@@ -95,7 +95,7 @@ SliverEntranceAnimation<double>(
   builder: (context, slide) {
     return Transform.translate(
       offset: Offset(-slide, 0),
-      child: RoundedBox(text: "SliverSlideTransition", ...),
+      child: RoundedBox(text: "SliverSuspendedSlideTransition", ...),
     );
   },
 )
@@ -199,22 +199,22 @@ SliverParallax(
   }
 
 
-  SingleWidgetDemo _demoSliverSlide() {
+  SingleWidgetDemo _demoSliverSuspendedSlide() {
     return SingleWidgetDemo(
-      text: "SliverSlideTransition",
+      text: "SliverSuspendedSlideTransition",
       spacersBefore: 1,
       spacersAfter: 5,
       code: """
-SliverSlideTransition(
+SliverSuspendedSlideTransition(
   duration: 600,
   curve: Curves.ease,
   height: 250,
-  first: RoundedBox(text: "SliverSlideTransition", ...),
+  first: RoundedBox(text: "SliverSuspendedSlideTransition", ...),
   second: RoundedBox(text: "New Content", ...),
 ),
 """,
       builder: (context, child) {
-        return SliverSlideTransition(
+        return SliverSuspendedSlideTransition(
           duration: 600,
           height: 250,
           first: child,
@@ -228,22 +228,22 @@ SliverSlideTransition(
     );
   }
 
-  SingleWidgetDemo _demoSliverFade() {
+  SingleWidgetDemo _demoSliverSuspendedFade() {
     return SingleWidgetDemo(
-      text: "SliverFadeTransition",
+      text: "SliverSuspendedFadeTransition",
       spacersBefore: 1,
       spacersAfter: 5,
       code: """
-SliverFadeTransition(
+SliverSuspendedFadeTransition(
   duration: 600,
   height: 250 
   curve: Curves.ease,
-  first: RoundedBox(text: code, ...),
+  first: RoundedBox(text: "SliverSuspendedFadeTransition", ...),
   second: RoundedBox(text: "New Content", ...),
 )
 """,
       builder: (context, child) {
-        return SliverFadeTransition(
+        return SliverSuspendedFadeTransition(
           duration: 600,
           first: child,
           curve: Curves.ease,
@@ -257,21 +257,21 @@ SliverFadeTransition(
     );
   }
 
-  SingleWidgetDemo _demoSliverResize() {
+  SingleWidgetDemo _demoSliverSuspendedResize() {
     return SingleWidgetDemo(
-      text: "SliverResizeTransition",
+      text: "SliverSuspendedResize",
       spacersBefore: 1,
       spacersAfter: 5,
       code: """
-SliverFreezeResize(
+SliverSuspendedResize(
   duration: 600,
   mainAxisExtentTween: Tween(begin: 250, end: 500),
   curve: Curves.ease,
-  child: RoundedBox(text: "SliverFreezeResize", ...),
+  child: RoundedBox(text: "SliverSuspendedResize", ...),
 )
 """,
       builder: (context, child) {
-        return SliverFreezeResize(
+        return SliverSuspendedResize(
           duration: 600,
           mainAxisExtentTween: Tween(begin: 250, end: 500),
           curve: Curves.ease,
@@ -281,13 +281,13 @@ SliverFreezeResize(
     );
   }
 
-  SingleWidgetDemo _demoSliverFreezeAnimation() {
+  SingleWidgetDemo _demoSliverSuspendedAnimation() {
     return SingleWidgetDemo(
-      text: "SliverFreezeAnimation",
+      text: "SliverSuspendedAnimation",
       spacersBefore: 0,
       spacersAfter: 5,
       code: """
-SliverFreezeAnimation<double>(
+SliverSuspendedAnimation<double>(
   duration: 800,
   tween: Tween(begin: 0.0, end: 2*pi),
   builder: (context, angle) {
@@ -305,7 +305,7 @@ SliverFreezeAnimation<double>(
 )
 """,
       builder: (context, child) {
-        return SliverFreezeAnimation<double>(
+        return SliverSuspendedAnimation<double>(
           duration: 800,
           tween: Tween(begin: 0.0, end: 2*pi),
           builder: (context, angle) {
@@ -314,13 +314,13 @@ SliverFreezeAnimation<double>(
               children: <Widget>[
                 RoundedBox(
                   color: colors[0],
-                  height: 300,
+                  height: 350,
                 ),
                 Transform.rotate(
                   angle: angle,
                   child: Container(
-                    width: 250,
-                    height: 250,
+                    width: 300,
+                    height: 300,
                     child: child,
                   ),
                 ),
@@ -332,19 +332,19 @@ SliverFreezeAnimation<double>(
     );
   }
 
-  SingleWidgetDemo _demoSliverFreeze() {
+  SingleWidgetDemo _demoSliverSuspend() {
     return SingleWidgetDemo(
-      text: "SliverFreeze",
+      text: "SliverSuspend",
       spacersBefore: 1,
       spacersAfter: 5,
       code: """
-SliverFreeze(
+SliverSuspend(
   duration: 600,
   child: RoundedBox(...),
 )
 """,
       builder: (context, child) {
-        return SliverFreeze(
+        return SliverSuspend(
           duration: 600,
           child: child,
         );

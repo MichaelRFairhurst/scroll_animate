@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/animation.dart';
-import 'package:scroll_animate/src/sliver_freeze_animation.dart';
+import 'package:scroll_animate/src/sliver_suspended_animation.dart';
 
-/// A sliver that resizes while frozen at the top of screen during scroll.
+/// A sliver that resizes while suspended at the top of screen during scroll.
 ///
 /// The size transition is defined by the `mainAxisExtentTween`, which
 /// determines the size of the widget in the scrolling axis direction.
@@ -14,9 +14,9 @@ import 'package:scroll_animate/src/sliver_freeze_animation.dart';
 /// Remember that with the right [Curve] and/or [Tween] it is possible to
 /// create some highly dynamic effects, for instance, [TweenSequence].
 ///
-/// The duration of the freeze is specified in pixels the user will have to
-/// scroll before it becomes unfrozen.
-class SliverFreezeResize extends StatelessWidget {
+/// The duration of the suspension is specified in pixels the user will have to
+/// scroll before it becomes revitalized and scrolls again.
+class SliverSuspendedResize extends StatelessWidget {
 
   final Animatable<double> mainAxisExtentTween;
   final Widget? child;
@@ -24,11 +24,11 @@ class SliverFreezeResize extends StatelessWidget {
   final Curve? curve;
   final Key? key;
 
-  /// Create a [SliverFreezeResize].
+  /// Create a [SliverSuspendedResize].
   ///
   /// `duration`: The animation duration. This is specified in pixels that the
   /// user will have to scroll before the animation completes and the child
-  /// widget is unfrozen.
+  /// widget is revitalized and continues scrolling.
   ///
   /// `tween`: A tween to set the size of the child along the scroll axis. The
   /// begin value of the tween is used before the widget hits the top of the
@@ -38,7 +38,7 @@ class SliverFreezeResize extends StatelessWidget {
   /// `curve`: Optional. Set the animation curve, which is applied to animation
   /// progress just like a timed animation, except powered by scroll. Defaults
   /// to a linear curve.
-  SliverFreezeResize({
+  SliverSuspendedResize({
     required this.duration,
     required this.mainAxisExtentTween,
     this.child,
@@ -47,7 +47,7 @@ class SliverFreezeResize extends StatelessWidget {
   });
 
   Widget build(BuildContext context) {
-    return SliverFreezeAnimation<double>(
+    return SliverSuspendedAnimation<double>(
       key: key,
       duration: duration,
       curve: curve,

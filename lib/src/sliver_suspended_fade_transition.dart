@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:scroll_animate/src/sliver_freeze_animation.dart';
+import 'package:scroll_animate/src/sliver_suspended_animation.dart';
 
 
-/// A sliver that crossfades contents while frozen at the top of a scrollview.
+/// A sliver that crossfades contents while sticking to the top of a scrollview.
 ///
 /// The minimum necessary to use this widget is to provide two children; the
 /// [first] and [second], and a duration. However, there may be issues sizing
 /// the children, and for this reason there are a variety of sizing parameters
 /// available as well.
 ///
-/// The duration of the freeze is specified in pixels the user will have to
-/// scroll before it becomes unfrozen.
-class SliverFadeTransition extends StatelessWidget {
+/// The duration of the suspension is specified in pixels the user will have to
+/// scroll before it becomes revitalized and scrolls again.
+class SliverSuspendedFadeTransition extends StatelessWidget {
   final Widget first;
   final Widget second;
   final double duration;
@@ -25,11 +25,11 @@ class SliverFadeTransition extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
 
-  /// Create a [SliverFadeTransition].
+  /// Create a [SliverSuspendedFadeTransition].
   ///
   /// `duration`: The animation duration. This is specified in pixels that the
   /// user will have to scroll before the animation completes and the child
-  /// widget is unfrozen.
+  /// widget is revitalized and scrolls again.
   ///
   /// `first`: The first child shown before the widget is scrolled to the top
   /// of the scrollview.
@@ -53,7 +53,7 @@ class SliverFadeTransition extends StatelessWidget {
   /// `padding`: Optional. Provide padding to both children at once.
   ///
   /// `margin`: Optional. Provide padding to both children at once.
-  SliverFadeTransition({
+  SliverSuspendedFadeTransition({
     required this.duration,
     required this.first,
     required this.second,
@@ -78,7 +78,7 @@ class SliverFadeTransition extends StatelessWidget {
   );
 
   Widget build(BuildContext context) {
-    return SliverFreezeAnimation<double>(
+    return SliverSuspendedAnimation<double>(
       duration: duration,
       curve: curve,
       tween: Tween<double>(begin: 1.0, end: 0.0),

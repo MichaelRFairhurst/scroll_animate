@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:flutter/material.dart' hide SliverFadeTransition;
+import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:scroll_animate/scroll_animate.dart';
@@ -23,33 +23,33 @@ class DemoAll extends StatelessWidget {
               title: Text("SliverAppBar"),
             ),
           ),
-          SliverSlideTransition(
+          SliverSuspendedSlideTransition(
             duration: 400,
             height: 150,
             curve: Curves.ease,
             first: RoundedBox(
               color: nextColor(),
-              text: "SliverSlideTransition",
+              text: "SliverSuspendedSlideTransition",
             ),
             second: RoundedBox(
               color: nextColor(),
               text: "...",
             ),
           ),
-          SliverFadeTransition(
+          SliverSuspendedFadeTransition(
             duration: 400,
             height: 150,
             curve: Curves.ease,
             first: RoundedBox(
               color: nextColor(),
-              text: "SliverFadeTransition",
+              text: "SliverSuspendedFadeTransition",
             ),
             second: RoundedBox(
               color: nextColor(),
               text: "...",
             ),
           ),
-          SliverFreezeAnimation<double>(
+          SliverSuspendedAnimation<double>(
             duration: 800,
             curve: Curves.ease,
             tween: Tween(begin: 0.0, end: 2*pi),
@@ -69,7 +69,7 @@ class DemoAll extends StatelessWidget {
                         color: colors[1],
                         width: 200,
                         height: 200,
-                        text: "SliverFreezeAnimation",
+                        text: "SliverSuspendedAnimation",
                       ),
                     ),
                   ),
@@ -77,7 +77,7 @@ class DemoAll extends StatelessWidget {
               );
             },
           ),
-          SliverFreezeResize(
+          SliverSuspendedResize(
             duration: 800,
             curve: Curves.ease,
             mainAxisExtentTween: TweenSequence<double>(
@@ -104,7 +104,7 @@ class DemoAll extends StatelessWidget {
             ),
             child: RoundedBox(
               color: nextColor(),
-              text: "SliverFreezeResize",
+              text: "SliverSuspendedResize",
             ),
           ),
           SliverEntranceAnimation<double>(
@@ -131,7 +131,7 @@ class DemoAll extends StatelessWidget {
             sliverBuilder: (context, opacity, _) {
               return SliverOpacity(
                 opacity: opacity,
-                sliver: SliverSlideTransition(
+                sliver: SliverSuspendedSlideTransition(
                   duration: 400,
                   height: 150,
                   curve: Curves.ease,
@@ -141,7 +141,7 @@ class DemoAll extends StatelessWidget {
                   ),
                   second: RoundedBox(
                     color: colors[4],
-                    text: "... with SliverSlideTransition",
+                    text: "... with SliverSuspendedSlideTransition",
                   ),
                 ),
               );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:scroll_animate/src/sliver_freeze_animation.dart';
+import 'package:scroll_animate/src/sliver_suspended_animation.dart';
 
-/// A sliver that swipes between contents while frozen at the top of a scroll.
+/// A sliver that swipes between contents while suspended at the top of a scroll.
 ///
 /// The minimum necessary to use this widget is to provide two children; the
 /// [first] and [second], and a duration. However, there may be issues sizing
@@ -9,8 +9,8 @@ import 'package:scroll_animate/src/sliver_freeze_animation.dart';
 /// available as well.
 ///
 /// The duration of the slide is specified in pixels the user will have to
-/// scroll before it becomes unfrozen.
-class SliverSlideTransition extends StatelessWidget {
+/// scroll before it becomes revitalized and scrolls again.
+class SliverSuspendedSlideTransition extends StatelessWidget {
   final Widget first;
   final Widget second;
   final double duration;
@@ -25,11 +25,11 @@ class SliverSlideTransition extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
 
 
-  /// Create a [SliverSlideTransition].
+  /// Create a [SliverSuspendedSlideTransition].
   ///
   /// `duration`: The animation duration. This is specified in pixels that the
   /// user will have to scroll before the animation completes and the child
-  /// widget is unfrozen.
+  /// widget is revitalized and scrolls again.
   ///
   /// `first`: The first child shown before the widget is scrolled to the top
   /// of the scrollview.
@@ -53,7 +53,7 @@ class SliverSlideTransition extends StatelessWidget {
   /// `padding`: Optional. Provide padding to both children at once.
   ///
   /// `margin`: Optional. Provide padding to both children at once.
-  SliverSlideTransition({
+  SliverSuspendedSlideTransition({
     required this.duration,
     required this.first,
     required this.second,
@@ -68,7 +68,7 @@ class SliverSlideTransition extends StatelessWidget {
   });
 
   Widget build(BuildContext context) {
-    return SliverFreezeAnimation<double>(
+    return SliverSuspendedAnimation<double>(
       duration: duration,
       curve: curve,
       tween: Tween<double>(begin: 0.0, end: 1.0),
@@ -81,7 +81,7 @@ class SliverSlideTransition extends StatelessWidget {
           padding: padding,
           margin: margin,
           child: Flow(
-            delegate: _SliverSlideTransitionFlowDelegate(
+            delegate: _SliverSuspendedSlideTransitionFlowDelegate(
               progress,
             ),
             children: <Widget>[
@@ -95,10 +95,10 @@ class SliverSlideTransition extends StatelessWidget {
   }
 }
 
-class _SliverSlideTransitionFlowDelegate extends FlowDelegate {
+class _SliverSuspendedSlideTransitionFlowDelegate extends FlowDelegate {
   final double progress;
 
-  _SliverSlideTransitionFlowDelegate(this.progress);
+  _SliverSuspendedSlideTransitionFlowDelegate(this.progress);
 
   @override
   void paintChildren(FlowPaintingContext context) {
@@ -108,6 +108,6 @@ class _SliverSlideTransitionFlowDelegate extends FlowDelegate {
   }
 
   @override
-  bool shouldRepaint(_SliverSlideTransitionFlowDelegate newDelegate)
+  bool shouldRepaint(_SliverSuspendedSlideTransitionFlowDelegate newDelegate)
       => newDelegate.progress != progress;
 }
