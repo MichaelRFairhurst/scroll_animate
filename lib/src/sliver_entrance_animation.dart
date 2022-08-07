@@ -96,6 +96,7 @@ class SliverEntranceAnimationState<T> extends State<SliverEntranceAnimation<T>> 
   @override
   void dispose() {
     _animationController.dispose();
+    super.dispose();
   }
 
   @override
