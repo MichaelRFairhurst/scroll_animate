@@ -2,6 +2,9 @@
 
 A library to provide fancy scroll effects such as parallax and animation.
 
+![22-08-07-01-47-44_AdobeExpress](https://user-images.githubusercontent.com/1627771/183283024-190b5d3b-8bdf-49bf-a32d-8a94b0f75b9c.gif)
+
+
 ## Usage
 
 Most of the widgets in this library are implemented as Slivers. This means they will work in
@@ -79,6 +82,8 @@ SliverEnterExitCallbackWrapper(
 ```
 
 ### SliverEntranceAnimation
+
+![sliver_entrance_animation_demo_AdobeExpress](https://user-images.githubusercontent.com/1627771/183282592-29cb1ec9-c2a1-4975-911e-4527a80db0bf.gif)
 
 Perform an animation when a sliver enters/exits the scrollview. All you need to
 do is specify a type parameter (for instance, `double` for animating opacity, or
@@ -172,6 +177,8 @@ on animation. This is then passed into the `builder` callback.
 A sliver that suspends in place and begins an animation when it reaches the top
 of a scroll view, and then continues to scroll when the animation is complete.
 
+![sliver_suspended_animation_demo_AdobeExpress](https://user-images.githubusercontent.com/1627771/183282789-291a8a0e-33c2-4162-8215-089f3f824166.gif)
+
 Can be an especially nice effect when the widget is set to match the size of
 the screen, creating a sort of `PageView` effect, with feedback between
 "pages."
@@ -215,6 +222,8 @@ A sliver which suspends in place once it is scrolled to the top of the page. It
 will stay suspended in the top of the scroll view until the user has continued
 to scroll a specified amount.
 
+![sliver_suspend_demo_AdobeExpress](https://user-images.githubusercontent.com/1627771/183282800-99e9b87e-d19d-467a-bf7f-8af39646da95.gif)
+
 This can be a useful effect, especially when the child is the size of the
 screen, creating an effect similar to a `PageView`. This is usually best done
 with a `SliverSuspendedAnimation`.
@@ -230,6 +239,8 @@ SliverSuspend(
 
 A sliver that suspends in place and then resizes when scrolled to the top of
 screen, before continuing to scroll.
+
+![sliver_suspended_resize_demo_AdobeExpress](https://user-images.githubusercontent.com/1627771/183282822-a2fa9118-6717-43bf-8000-389311e0d283.gif)
 
 The size transition is defined by the `mainAxisExtentTween`, which determines
 the size of the widget in the scrolling axis direction.
@@ -262,6 +273,8 @@ SliverSuspendedResize(
 A sliver that suspends in place at the top of the scrollview and crossfades
 between two widgets before continuing to scroll.
 
+![sliver_suspended_fade_transition_demo_AdobeExpress](https://user-images.githubusercontent.com/1627771/183282835-4cc2b682-8566-40f3-ba41-b970b35f4f5c.gif)
+
 The minimum necessary to use this widget is to provide two children; the [first]
 and [second], and a duration. However, there may be issues sizing the children,
 and for this reason there are a variety of sizing parameters available as well.
@@ -283,6 +296,8 @@ SliverSuspendedFadeTransition(
 
 A sliver that suspends in place at the top of the scrollview and performs a
 swipe/slide type transition between two widgets before continuing to scroll.
+
+![sliver_suspended_slide_transition_demo_AdobeExpress](https://user-images.githubusercontent.com/1627771/183282850-30f60e90-b6c0-476c-b6ac-ee8b2f8ce606.gif)
 
 The minimum necessary to use this widget is to provide two children; the [first]
 and [second], and a duration. However, there may be issues sizing the children,
@@ -307,6 +322,8 @@ Makes a widget scrolls faster or slower than other scroll contents, creating a
 "parallax" effect. Often used to imitate 3D/depth, but also can be used to
 create a visual surprise when contents unexpectedly line up in interesting ways
 while scrolling.
+
+![sliver_parallax_demo_AdobeExpress](https://user-images.githubusercontent.com/1627771/183282856-02fc5968-282c-49b5-9f10-8541ad6814e6.gif)
 
 Simply provide a child for the widget that will move at a parallax, and a
 `mainAxisFactor` that changes the scroll rate.
@@ -345,6 +362,8 @@ SliverParallax(
 By putting a `SliverParallax` as the final sliver in a `CustomScrollView`, and
 giving it an absolute scroll offset of 0px, you can create a slow scrolling
 background effect, since the last sliver is painted below all the rest.
+
+![sliver_parallax_background_demo_AdobeExpress](https://user-images.githubusercontent.com/1627771/183282870-e3301ee7-3d62-4173-8bbf-c05d4bb20ee4.gif)
 
 ```dart
 CustomScrollView(
