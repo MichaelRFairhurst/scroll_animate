@@ -2,16 +2,29 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 final colors = <Color>[
-  Color(0xFF028E9E),
-  Color(0xFF7BCF55),
-  Color(0xFFD17452),
-  Color(0xFF34D8EB),
-  Color(0xFFABA693),
-  Color(0xFFB57D9F),
-  Color(0xFFC9AA2C),
-  Color(0xFF6F70B3),
-  Color(0xFF8C4971),
-  Color(0xFF4748A1),
+  //Color(0xFFD97E98),
+  //Color(0xFFB47ED9),
+  //Color(0xFF797BD9),
+  //Color(0xFF7CBAD9),
+  //Color(0xFF77D9CD),
+  //Color(0xFFB0D4B0),
+  //Color(0xFF7FD977),
+  //Color(0xFF6DC773),
+  //Color(0xFFCFD979),
+  //Color(0xFFD9A464),
+  //Color(0xFFD67776),
+
+  Color(0xFF7CBAD9),
+  Color(0xFFCFD979),
+  Color(0xFF77D9CD),
+  //Color(0xFFD97E98),
+  Color(0xFF797BD9),
+  Color(0xFFD9A464),
+  Color(0xFF6DC773),
+  Color(0xFFD67776),
+  Color(0xFFB47ED9),
+  Color(0xFFB0D4B0),
+  Color(0xFF7FD977),
 ];
 
 class Palette {

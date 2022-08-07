@@ -15,7 +15,7 @@ class DemoLauncher extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return SliverEntranceAnimation<double>(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 300),
       tween: Tween(begin: 0.0, end: 1.0),
       builder: (context, opacity, _) {
         return Opacity(

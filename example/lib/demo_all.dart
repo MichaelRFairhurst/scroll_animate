@@ -223,6 +223,8 @@ class DemoAll extends StatelessWidget {
               child: Image.asset(
                 "assets/fluttercodeimg.jpeg",
                 fit: BoxFit.cover,
+                color: Color(0xffe0e0e0),
+                colorBlendMode: BlendMode.screen,
               ),
             ),
           ),

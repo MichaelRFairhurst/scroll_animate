@@ -52,6 +52,7 @@ class MyHomePage extends StatelessWidget {
              text: "SliverParallax Demo",
              builder: (context) => _demoSliverParallax(context),
           ),
+          _singleWidgetLauncher(_demoSliverParallaxBackground()),
           _singleWidgetLauncher(_demoSliverSlide()),
           _singleWidgetLauncher(_demoSliverFade()),
           _singleWidgetLauncher(_demoSliverResize()),
@@ -152,6 +153,48 @@ SliverParallax(
           child: Container(height: height * 2),
         ),
       ],
+    );
+  }
+
+  SingleWidgetDemo _demoSliverParallaxBackground() {
+    return SingleWidgetDemo(
+      text: "SliverParallax (bg effect)",
+      spacersBefore: 10,
+      spacersAfter: 0,
+      useHero: false,
+      height: 150,
+      code: """
+// As the last sliver in CustomScrollView
+SliverParallax(
+  mainAxisFactor: 0.3,
+  center: ParallaxScrollCenter.absolutePx(0.0),
+  child: Container(
+    height: screenSize * 1.5,
+    width: screenSize,
+    Image.asset(
+      "...",
+      fit: BoxFit.cover,
+    ),
+  ),
+),
+""",
+      builder: (context, child) {
+        final size = MediaQuery.of(context).size;
+        return SliverParallax(
+          mainAxisFactor: 0.3,
+          center: ParallaxScrollCenter.absolutePx(0.0),
+          child: Container(
+            height: size.height * 2,
+            width: size.width,
+            child: Image.asset(
+              "assets/fluttercodeimg.jpeg",
+              fit: BoxFit.cover,
+              color: Color(0xffb0b0b0),
+              colorBlendMode: BlendMode.screen,
+            ),
+          ),
+        );
+      },
     );
   }
 
