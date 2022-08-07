@@ -113,4 +113,15 @@ class _RenderSliverEnterExitCallback extends RenderSliver with RenderObjectWithC
       child.parentData = SliverPhysicalParentData();
   }
 
+  @override
+  bool hitTestChildren(SliverHitTestResult result, {required double mainAxisPosition, required double crossAxisPosition}) {
+    return child != null
+      && child!.geometry!.hitTestExtent > 0
+      && child!.hitTest(
+        result,
+        mainAxisPosition: mainAxisPosition,
+        crossAxisPosition: crossAxisPosition,
+      );
+  }
+
 }
