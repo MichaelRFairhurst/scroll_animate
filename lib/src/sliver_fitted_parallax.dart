@@ -229,10 +229,18 @@ class _RenderSliverFittedParallax extends RenderSliverParallaxBase {
     double mainAxisOffset = 0;
     double crossAxisOffset = 0;
 
-    if (mainAxisFactor < 0.0) {
+    bool forNormalizedDirection(bool condition) {
+      if (constraints.normalizedGrowthDirection == GrowthDirection.forward) {
+        return condition;
+      } else {
+        return !condition;
+      }
+    }
+
+    if (forNormalizedDirection(mainAxisFactor < 0.0)) {
       mainAxisOffset = constraints.viewportMainAxisExtent - mainAxisExtent;
     }
-    if (crossAxisFactor > 0.0) {
+    if (forNormalizedDirection(crossAxisFactor > 0.0)) {
       crossAxisOffset = constraints.crossAxisExtent - crossAxisExtent;
     }
 
