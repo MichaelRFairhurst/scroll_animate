@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:scroll_animate/src/parallax_scroll_center.dart';
 import 'package:scroll_animate/src/render_sliver_parallax.dart';
 
-/// A [ScrollParallax] that fits its scroll speed to its size or size to scroll.
+/// A [SliverParallax] that fits its scroll speed to its size or size to scroll.
 ///
 /// Intended for a parallax child which is larger than its scroll container and
 /// should always be visible within a certain scroll range (typically, from the

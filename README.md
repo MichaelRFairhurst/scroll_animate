@@ -4,7 +4,6 @@ A library to provide fancy scroll effects such as parallax and animation.
 
 ![22-08-07-01-47-44_AdobeExpress](https://user-images.githubusercontent.com/1627771/183283024-190b5d3b-8bdf-49bf-a32d-8a94b0f75b9c.gif)
 
-
 ## Usage
 
 Most of the widgets in this library are implemented as Slivers. This means they will work in
@@ -325,6 +324,9 @@ while scrolling.
 
 ![sliver_parallax_demo_AdobeExpress](https://user-images.githubusercontent.com/1627771/183282856-02fc5968-282c-49b5-9f10-8541ad6814e6.gif)
 
+For background parallax effects, and/or for parallax usage where size and scroll
+speed are logically coupled, see `SliverFittedParallax`.
+
 Simply provide a child for the widget that will move at a parallax, and a
 `mainAxisFactor` that changes the scroll rate.
 
@@ -359,24 +361,57 @@ SliverParallax(
 ),
 ```
 
-By putting a `SliverParallax` as the final sliver in a `CustomScrollView`, and
-giving it an absolute scroll offset of 0px, you can create a slow scrolling
-background effect, since the last sliver is painted below all the rest.
+### SliverFittedParallax
 
-![sliver_parallax_background_demo_AdobeExpress](https://user-images.githubusercontent.com/1627771/183282870-e3301ee7-3d62-4173-8bbf-c05d4bb20ee4.gif)
+Very useful for parallax style backgrounds. Like `SliverParallax`, makes a
+widget scrolls faster or slower than other scroll contents, creating a
+"parallax" effect. However, a `FittedParallax` will either fits its scroll speed
+to its child's size, or fit its child's size to its scroll.
+
+Intended for a parallax child which is larger than its scroll container and
+should always be visible within a certain scroll range (typically, from the
+beginning to end of the scroll view). This widget will constrain the child size
+OR set the scroll speed such that the edges of this widget are not visible when
+the user is scrolling through that range.
+
+When `mainAxisFactor` is not null, the child widget's size in the main scroll
+axis (ie, height in a vertical scroll) will be constrained so that the widget is
+still in view when scrolled to within the range. If `mainAxisFactor` is `null`,
+then a `mainAxisFactor` will be chosen that maintains this property instead. It
+will do the same for `crossAxisFactor` and the scroll axis size (ie, width in a
+vertical scroll).
+
+Rather than using a [ParallaxScrollCenter] to determine a "neutral" position,
+this takes a `start` and `end` scroll offset. These default to an absolute 0px
+start and a relative 0px end -- this means if it is the last sliver in the
+scroll view it will function as a background for the whole scroll view.
+
+![sliver_fitted_parallax_demo](https://storage.googleapis.com/scroll_animate_videos/sliver_fitted_parallax_demo.gif)
 
 ```dart
 CustomScrollView(
   slivers: <Widget>[
+    // *ALL* other slivers go *FIRST*.
     ...
-    SliverParallax(
-      mainAxisFactor: 0.1,
+
+    // For a scroll rate inferred from the image size
+    SliverFittedParallax(
       child: Image.asset(...),
+    ),
+
+    // OR
+
+    // For an exact scroll rate, sizing the image accordingly.
+    SliverFittedParallax(
+      mainAxisFactor: 0.3,
+      child: Image.asset(
+        ...,
+        fit: BoxFit.cover,
+      ),
     ),
   ],
 )
 ```
-
 ## Other Classes
 
 ### ParallaxScrollCenter
