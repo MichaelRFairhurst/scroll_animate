@@ -9,3 +9,5 @@ export 'package:scroll_animate/src/sliver_suspended_fade_transition.dart';
 export 'package:scroll_animate/src/sliver_suspended_resize.dart';
 export 'package:scroll_animate/src/sliver_suspended_slide_transition.dart';
 export 'package:scroll_animate/src/sliver_parallax.dart';
+export 'package:scroll_animate/src/sliver_fitted_parallax.dart';
+export 'package:scroll_animate/src/parallax_scroll_center.dart';

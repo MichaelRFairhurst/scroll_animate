@@ -77,6 +77,8 @@ class SingleWidgetDemoScaffold extends StatelessWidget {
 
     return Scaffold(
       body: CustomScrollView(
+        //scrollDirection: Axis.horizontal,
+        //reverse: true,
         slivers: <Widget>[
           SliverParallax(
             mainAxisFactor: -0.5,

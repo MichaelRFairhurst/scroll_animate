@@ -214,18 +214,11 @@ class DemoAll extends StatelessWidget {
               childCount: 10,
             ),
           ),
-          SliverParallax(
-            center: ParallaxScrollCenter.absolutePx(0.0),
-            mainAxisFactor: 0.05,
-            child: Container(
-              height: MediaQuery.of(context).size.height*2,
-              width: MediaQuery.of(context).size.width,
-              child: Image.asset(
-                "assets/fluttercodeimg.jpeg",
-                fit: BoxFit.cover,
-                color: Color(0xffe0e0e0),
-                colorBlendMode: BlendMode.screen,
-              ),
+          SliverFittedParallax(
+            child: Image.asset(
+              "assets/fluttercodeimg.jpeg",
+              color: Color(0xffe0e0e0),
+              colorBlendMode: BlendMode.screen,
             ),
           ),
         ],

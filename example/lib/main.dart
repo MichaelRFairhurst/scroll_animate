@@ -49,10 +49,10 @@ class MyHomePage extends StatelessWidget {
           _singleWidgetLauncher(_demoSliverEntranceAnimation()),
           _singleWidgetLauncher(_demoSliverSuspendedAnimation()),
           _demoLauncher(
-             text: "SliverParallax Demo",
+             text: "SliverParallax",
              builder: (context) => _demoSliverParallax(context),
           ),
-          _singleWidgetLauncher(_demoSliverParallaxBackground()),
+          _singleWidgetLauncher(_demoSliverFittedParallax()),
           _singleWidgetLauncher(_demoSliverSuspendedSlide()),
           _singleWidgetLauncher(_demoSliverSuspendedFade()),
           _singleWidgetLauncher(_demoSliverSuspendedResize()),
@@ -156,42 +156,27 @@ SliverParallax(
     );
   }
 
-  SingleWidgetDemo _demoSliverParallaxBackground() {
+  SingleWidgetDemo _demoSliverFittedParallax() {
     return SingleWidgetDemo(
-      text: "SliverParallax (bg effect)",
+      text: "SliverFittedParallax",
       spacersBefore: 10,
       spacersAfter: 0,
       useHero: false,
       height: 150,
       code: """
 // As the last sliver in CustomScrollView
-SliverParallax(
-  mainAxisFactor: 0.3,
-  center: ParallaxScrollCenter.absolutePx(0.0),
-  child: Container(
-    height: screenSize * 1.5,
-    width: screenSize,
-    Image.asset(
-      "...",
-      fit: BoxFit.cover,
-    ),
+SliverFittedParallax(
+  child: Image.asset(
+    "...",
   ),
 ),
 """,
       builder: (context, child) {
-        final size = MediaQuery.of(context).size;
-        return SliverParallax(
-          mainAxisFactor: 0.3,
-          center: ParallaxScrollCenter.absolutePx(0.0),
-          child: Container(
-            height: size.height * 2,
-            width: size.width,
-            child: Image.asset(
-              "assets/fluttercodeimg.jpeg",
-              fit: BoxFit.cover,
-              color: Color(0xffb0b0b0),
-              colorBlendMode: BlendMode.screen,
-            ),
+        return SliverFittedParallax(
+          child: Image.asset(
+            "assets/fluttercodeimg.jpeg",
+            color: Color(0xffb0b0b0),
+            colorBlendMode: BlendMode.screen,
           ),
         );
       },

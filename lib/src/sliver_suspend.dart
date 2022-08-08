@@ -86,7 +86,7 @@ class _RenderSliverSuspend extends RenderSliverSingleBoxAdapter {
     assert(constraints.growthDirection != null);
     switch (applyGrowthDirectionToAxisDirection(constraints.axisDirection, constraints.growthDirection)) {
       case AxisDirection.up:
-        childParentData.paintOffset = Offset(0.0, -(geometry.scrollExtent - (geometry.paintExtent + constraints.scrollOffset)));
+        childParentData.paintOffset = Offset(0.0, min(0.0, -(geometry.scrollExtent - (geometry.paintExtent + constraints.scrollOffset + duration))));
         break;
       case AxisDirection.right:
         childParentData.paintOffset = Offset(min(0.0, -constraints.scrollOffset + duration), 0.0);
@@ -95,7 +95,7 @@ class _RenderSliverSuspend extends RenderSliverSingleBoxAdapter {
         childParentData.paintOffset = Offset(0.0, min(0.0, -constraints.scrollOffset + duration));
         break;
       case AxisDirection.left:
-        childParentData.paintOffset = Offset(-(geometry.scrollExtent - (geometry.paintExtent + constraints.scrollOffset)), 0.0);
+        childParentData.paintOffset = Offset(min(0.0, -(geometry.scrollExtent - (geometry.paintExtent + constraints.scrollOffset + duration))), 0.0);
         break;
     }
     assert(childParentData.paintOffset != null);
