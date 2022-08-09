@@ -2,26 +2,28 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/rendering.dart';
 
 class ScrollPositionFlow extends StatelessWidget {
-  Matrix4 Function(Offset)? buildTransform;
-  double Function(Offset)? buildOpacity;
+  final Matrix4 Function(Offset)? buildTransform;
+  final double Function(Offset)? buildOpacity;
   final Clip clipBehavior;
   final Alignment transformAlignment;
-  Widget? child;
+  final Widget? child;
 
-  ScrollPositionFlow({
+  const ScrollPositionFlow({
+    Key? key,
     this.buildTransform,
     this.buildOpacity,
     this.clipBehavior = Clip.none,
     this.transformAlignment = Alignment.center,
     this.child,
-  });
+  }) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     if (child == null) {
       return Container();
     }
 
-    return ScrollPositionFlowSubclass(
+    return _ScrollPositionFlowSubclass(
       children: <Widget>[child!],
       clipBehavior: clipBehavior,
       delegate: ScrollPositionFlowDelegate(
@@ -35,12 +37,84 @@ class ScrollPositionFlow extends StatelessWidget {
   }
 }
 
-class ScrollPositionFlowSubclass extends Flow {
-  ScrollPositionFlowSubclass({
+class EntranceAnimationFlow extends StatefulWidget {
+  final Widget child;
+  final Animatable<Matrix4> matrixTween;
+  final Animatable<double> opacityTween;
+  final Alignment transformAlignment;
+  final Clip clipBehavior;
+
+  const EntranceAnimationFlow({
+    Key? key,
+    required this.child,
+    required this.opacityTween,
+    required this.matrixTween,
+    this.transformAlignment = Alignment.center,
+    this.clipBehavior = Clip.none,
+  }) : super(key: key);
+
+  @override
+  EntranceAnimationFlowState createState() => EntranceAnimationFlowState();
+}
+
+class EntranceAnimationFlowState extends State<EntranceAnimationFlow> with SingleTickerProviderStateMixin {
+  late final AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(vsync: this);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _ScrollPositionFlowSubclass(
+      children: [widget.child],
+      clipBehavior: widget.clipBehavior,
+      delegate: EntranceAnimationFlowDelegate(
+        matrixTween: widget.matrixTween,
+        opacityTween: widget.opacityTween,
+        transformAlignment: widget.transformAlignment,
+        repaint: controller,
+      ),
+    );
+  }
+}
+
+class EntranceAnimationFlowDelegate extends FlowDelegate {
+  final Animatable<Matrix4> matrixTween;
+  final Animatable<double> opacityTween;
+  final Alignment transformAlignment;
+
+  EntranceAnimationFlowDelegate({
+    required this.matrixTween,
+    required this.opacityTween,
+    required this.transformAlignment,
+    required Listenable repaint,
+  }) : super(repaint: repaint);
+
+  @override
+  void paintChildren(FlowPaintingContext context) {
+    // TODO: implement paintChildren
+  }
+
+  @override
+  bool shouldRepaint(covariant FlowDelegate oldDelegate) {
+    // TODO: implement shouldRepaint
+    throw UnimplementedError();
+  }
+
+
+}
+
+class _ScrollPositionFlowSubclass extends Flow {
+  _ScrollPositionFlowSubclass({
+    Key? key,
     required List<Widget> children,
     required FlowDelegate delegate,
     required Clip clipBehavior,
   }) : super(
+    key: key,
     children: children,
     delegate: delegate,
     clipBehavior: clipBehavior,
@@ -79,19 +153,18 @@ class ScrollPositionFlowDelegate extends FlowDelegate {
 
   ScrollPositionFlowDelegate({
     required this.context,
-    required ScrollableState scrollable,
+    required this.scrollable,
     required this.buildTransform,
     required this.buildOpacity,
     required this.transformAlignment,
-  }) : scrollable = scrollable
-    , super(repaint: scrollable.position);
+  }) : super(repaint: scrollable.position);
 
   // TODO: should this be false? Check build functions?
   @override
   bool shouldRepaint(ScrollPositionFlowDelegate oldDelegate) => true;
 
   @override
-  Size getSize(BoxConstraints constraints) => Size(0, 0);
+  Size getSize(BoxConstraints constraints) => const Size(0, 0);
 
   @override
   void paintChildren(FlowPaintingContext context) {
@@ -99,17 +172,17 @@ class ScrollPositionFlowDelegate extends FlowDelegate {
     final scrollableRenderObject = scrollable.context.findRenderObject();
 
     final offset = scrollPositionFlowRenderObject.localToGlobal(
-        Offset(0, 0),
+        const Offset(0, 0),
         ancestor: scrollableRenderObject,
     );
 
     final size = context.getChildSize(0)!;
     final translation = transformAlignment.alongSize(size);
     final transform =
-        Matrix4.translationValues(translation.dx, translation.dy / 2, 0)
+        Matrix4.translationValues(translation.dx, translation.dy, 0)
           ..multiply(buildTransform(offset))
           ..translate(-translation.dx, -translation.dy);
-  
+
     context.paintChild(
         0,
         opacity: buildOpacity(offset),
