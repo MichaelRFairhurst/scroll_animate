@@ -40,7 +40,7 @@ class SingleWidgetDemo extends StatelessWidget {
         for (int i = 0; i < examplesCount; ++i)
           builder(
             context,
-            useHero
+            useHero && i == 0
               ? DemoHero(
                   text: text,
                   height: height,

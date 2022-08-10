@@ -1,4 +1,7 @@
 export 'package:scroll_animate/src/entrance_policy.dart';
+export 'package:scroll_animate/src/scroll_position_flow.dart';
+export 'package:scroll_animate/src/scroll_range.dart';
+export 'package:scroll_animate/src/entrance_animation_flow.dart';
 export 'package:scroll_animate/src/sliver_enter_exit_callback.dart';
 export 'package:scroll_animate/src/sliver_enter_exit_callback_wrapper.dart';
 export 'package:scroll_animate/src/sliver_entrance_animation.dart';
@@ -8,6 +11,7 @@ export 'package:scroll_animate/src/sliver_suspended_animation.dart';
 export 'package:scroll_animate/src/sliver_suspended_fade_transition.dart';
 export 'package:scroll_animate/src/sliver_suspended_resize.dart';
 export 'package:scroll_animate/src/sliver_suspended_slide_transition.dart';
+export 'package:scroll_animate/src/sliver_position_animation.dart';
 export 'package:scroll_animate/src/sliver_parallax.dart';
 export 'package:scroll_animate/src/sliver_fitted_parallax.dart';
 export 'package:scroll_animate/src/parallax_scroll_center.dart';

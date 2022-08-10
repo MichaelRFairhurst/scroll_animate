@@ -57,6 +57,9 @@ class MyHomePage extends StatelessWidget {
           _singleWidgetLauncher(_demoSliverSuspendedFade()),
           _singleWidgetLauncher(_demoSliverSuspendedResize()),
           _singleWidgetLauncher(_demoSliverSuspend()),
+          _singleWidgetLauncher(_demoSliverPositionAnimation()),
+          _singleWidgetLauncher(_demoScrollPositionFlow()),
+          _singleWidgetLauncher(_demoEntranceAnimationFlow()),
         ],
       ),
     );
@@ -221,7 +224,7 @@ SliverSuspendedSlideTransition(
       code: """
 SliverSuspendedFadeTransition(
   duration: 600,
-  height: 250 
+  height: 250
   curve: Curves.ease,
   first: RoundedBox(text: "SliverSuspendedFadeTransition", ...),
   second: RoundedBox(text: "New Content", ...),
@@ -332,6 +335,85 @@ SliverSuspend(
         return SliverSuspend(
           duration: 600,
           child: child,
+        );
+      },
+    );
+  }
+
+  SingleWidgetDemo _demoSliverPositionAnimation() {
+    return SingleWidgetDemo(
+      text: "SliverPositionAnimation",
+      examplesCount: 10,
+      code: """
+SliverPositionAnimation<double>(
+  tween: Tween(begin: 0.0, end: 1.0),
+  curve: Curves.ease,
+  builder: (context, scale) {
+    return Transform.scale(
+      scale: scale,
+      child: child,
+    );
+  }
+)
+""",
+      builder: (context, child) {
+        return SliverPositionAnimation(
+          tween: Tween(begin: 0.0, end: 1.0),
+          curve: Curves.ease,
+          builder: (context, scale) {
+            return Transform.scale(
+              scale: scale,
+              child: child,
+            );
+          }
+        );
+      },
+    );
+  }
+
+  SingleWidgetDemo _demoScrollPositionFlow() {
+    return SingleWidgetDemo(
+      text: "ScrollPositionFlow",
+      spacersBefore: 0,
+      examplesCount: 10,
+      spacersAfter: 0,
+      code: """
+ScrollPositionFlow.animateScale(
+  scaleTween: Tween(begin: 0.0, end: 1.0),
+  child: RoundedBox(...),
+),
+""",
+      builder: (context, child) {
+        return SliverToBoxAdapter(
+          child: ScrollPositionFlow.animateScale(
+            scaleTween: Tween(begin: 0.0, end: 1.0),
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+
+  SingleWidgetDemo _demoEntranceAnimationFlow() {
+    return SingleWidgetDemo(
+      text: "EntranceAnimationFlow",
+      spacersBefore: 0,
+      examplesCount: 10,
+      spacersAfter: 0,
+      code: """
+EntranceAnimationFlow(
+  duration: const Duration(seconds: 1),
+  opacityTween: Tween(begin: 0.0, end: 1.0),
+  child: RoundedBox(...)
+),
+""",
+      builder: (context, child) {
+        return SliverToBoxAdapter(
+          child: EntranceAnimationFlow(
+            duration: const Duration(seconds: 1),
+            opacityTween: Tween(begin: 0.0, end: 1.0),
+            child: child,
+          ),
         );
       },
     );

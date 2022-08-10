@@ -107,6 +107,20 @@ class DemoAll extends StatelessWidget {
               text: "SliverSuspendedResize",
             ),
           ),
+        SliverPositionAnimation<double>(
+          tween: Tween(begin: 0.0, end: 1.0),
+          curve: Curves.ease,
+          builder: (context, scale) {
+            return Transform.scale(
+              scale: scale,
+              child: RoundedBox(
+                height: 150,
+                color: Colors.red,
+                text: "SliverPositionAnimation",
+              ),
+            );
+          }
+        ),
           SliverEntranceAnimation<double>(
             duration: Duration(seconds: 1),
             curve: Curves.ease,
