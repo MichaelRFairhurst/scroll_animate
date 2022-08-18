@@ -469,6 +469,50 @@ providing a custom `ScrollRange`. See `ScrollRange` for more, but note that this
 may not work the way you expect when used in a `ParallaxWindow`, and that
 usually the default of a `FullScrollRange` is desired.
 
+### ScrollPositionFlow
+
+Animate a widget based on its scroll progress/position within the scroll view,
+with paint operation changes only. This is a more performant but more limited
+version of `SliverPositionAnimation`.
+
+![scroll_range_demo](https://storage.googleapis.com/scroll_animate_videos/scroll_range_demo.gif)
+
+Much like the core flutter `Flow` widget, this will only let you animate matrix
+transforms and opacity of the child widget. This allows flutter to skip the
+layout stage of render for this subtree even as it animates.
+
+This widget can be used with the default constructor to perform completely
+customizable behavior, however, usually one of the factory constructors will be
+easier to use and do what you want.
+
+The next most basic factory constructor is `ScrollPositionFlow.animate`, which
+takes a `Tween` for a matrix transform animation and an opacity animation. The
+scroll progress will be used (along with an optional `Curve`) to get get the
+current animation value for every frame.
+
+Transformation matrices are very powerful, but complex to use. For this reason,
+the factory constructors `ScrollPositionFlow.animateScale` and
+`ScrollPositionFlow.animateTranslate` are provided that can build these types of
+matrices for you.
+
+All constructors also take an `Alignment` to determine the center point of
+the transformation. This defaults to the center of the child. You can also
+provide a custom `Clip` behavior (by default it will not clip).
+
+By default, when the widget has barely appeared on screen the animation is
+started at 0% progress, and reaches 100% progress when it is fully scrolled off
+the top of the scroll view. To customize this behavior, provide a `ScrollRange`.
+
+Different `ScrollRange`s can change the top to 100% and the bottom to 0%, or
+they can make part of the middle 100% while the top and bottom are 0%, and they
+can change what's considered the top and bottom. There are existing
+`ScrollRange`s defined and they have methods to tweak them, or you can write
+your own from scratch. See `ScrollRange` for more.
+
+Note: the transformations do not effect the layout of this component and do
+not affect how the `ScrollRange` progress is calculated. That would result in a
+circular dependency to calculate progress.
+
 ## Other Classes
 
 ### ParallaxScrollCenter
@@ -532,11 +576,27 @@ class MyEntrancePolicy implements EntrancePolicy {
 }
 ```
 
-## ScrollRange
+### ScrollRange
 
 The `ScrollRange` class defines the range used to determine progress in a scroll
-progress widget, such as `SliverPositionAnimation`, `ScrollProgressFlow`, or
+progress widget, such as `SliverPositionAnimation`, `ScrollPositionFlow`, or
 `ParallaxWindow`.
+
+![scroll_range_demo](https://storage.googleapis.com/scroll_animate_videos/scroll_range_demo.gif)
+
+```dart
+ListView(
+  children: <Widget>[
+    ...
+    ScrollPositionFlow.animateScale(
+      scrollRange: ScrollRange.centerVisibleRange().distanceFrom(0.4, 0.6),
+      scaleTween: Tween(begin: 0.0, end: 1.0),
+      child: RoundedBox(...)
+    ),
+    ...
+  ],
+)
+```
 
 By using your own `ScrollRange`, you can change whether these animations begin
 or end before the widget is fully scrolled on screen, tune them via custom

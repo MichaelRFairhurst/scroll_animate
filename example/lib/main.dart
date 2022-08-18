@@ -59,6 +59,7 @@ class MyHomePage extends StatelessWidget {
           _singleWidgetLauncher(_demoSliverSuspend()),
           _singleWidgetLauncher(_demoSliverPositionAnimation()),
           _singleWidgetLauncher(_demoScrollPositionFlow()),
+          _singleWidgetLauncher(_demoScrollRange()),
           _singleWidgetLauncher(_demoEntranceAnimationFlow()),
           _singleWidgetLauncher(_demoParallaxWindow()),
         ],
@@ -381,6 +382,31 @@ SliverPositionAnimation<double>(
       code: """
 ScrollPositionFlow.animateScale(
   scaleTween: Tween(begin: 0.0, end: 1.0),
+  child: RoundedBox(...),
+),
+""",
+      builder: (context, child) {
+        return SliverToBoxAdapter(
+          child: ScrollPositionFlow.animateScale(
+            scaleTween: Tween(begin: 0.0, end: 1.0),
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+
+  SingleWidgetDemo _demoScrollRange() {
+    return SingleWidgetDemo(
+      text: "ScrollRange",
+      spacersBefore: 0,
+      examplesCount: 10,
+      spacersAfter: 0,
+      code: """
+ScrollPositionFlow.animateScale(
+  scaleTween: Tween(begin: 0.0, end: 1.0),
+  scrollRange: ScrollRange.centerVisibleRange()
+      .distanceFrom(0.4, 0.6),
   child: RoundedBox(...),
 ),
 """,
