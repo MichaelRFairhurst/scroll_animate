@@ -471,6 +471,9 @@ usually the default of a `FullScrollRange` is desired.
 
 ### ScrollPositionFlow
 
+_Note: This widget is not a Sliver. To use it as a sliver, wrap it in a
+`SliverToBoxAdapter`._
+
 Animate a widget based on its scroll progress/position within the scroll view,
 with paint operation changes only. This is a more performant but more limited
 version of `SliverPositionAnimation`.
@@ -490,10 +493,46 @@ takes a `Tween` for a matrix transform animation and an opacity animation. The
 scroll progress will be used (along with an optional `Curve`) to get get the
 current animation value for every frame.
 
+```dart
+ListView(
+  children: <Widget>[
+    ...
+    ScrollPositionFlow.animate(
+      opacity: Tween(begin: 0.0, end: 1.0),
+      child: ...
+    ),
+    ...
+  ],
+)
+```
+
 Transformation matrices are very powerful, but complex to use. For this reason,
 the factory constructors `ScrollPositionFlow.animateScale` and
 `ScrollPositionFlow.animateTranslate` are provided that can build these types of
 matrices for you.
+
+```dart
+ListView(
+  children: <Widget>[
+    ...
+    // scale the widget up as it scrolls
+    ScrollPositionFlow.animateScale(
+      scale: Tween(begin: 0.0, end: 1.0),
+      child: ...
+    ),
+
+    // slide the the widget in from the left as it scrolls
+    ScrollPositionFlow.animateTranslate(
+      translate: OffsetTween(
+        begin: Offset(-MediaQuery.of(context).size.width, 0),
+        end: Offset(0, 0),
+      ),
+      child: ...
+    ),
+    ...
+  ],
+)
+```
 
 All constructors also take an `Alignment` to determine the center point of
 the transformation. This defaults to the center of the child. You can also
@@ -508,6 +547,18 @@ they can make part of the middle 100% while the top and bottom are 0%, and they
 can change what's considered the top and bottom. There are existing
 `ScrollRange`s defined and they have methods to tweak them, or you can write
 your own from scratch. See `ScrollRange` for more.
+
+```dart
+ListView(
+  children: <Widget>[
+    ...
+    // scale the widget up as it scrolls
+    ScrollPositionFlow.animateScale(
+      scale: Tween(begin: 0.0, end: 1.0),
+      scrollRange: ScrollRange.centerVisibleRange().distanceFrom(0.4, 0.6),
+      child: ...
+    ),
+```
 
 Note: the transformations do not effect the layout of this component and do
 not affect how the `ScrollRange` progress is calculated. That would result in a
