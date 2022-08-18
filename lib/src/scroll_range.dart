@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 /// The range used to determine progress in a scroll progress animation.
 ///
-/// The default implementations are available via factor constructors:
+/// The default implementations are available via factory constructors:
 ///
 /// - `ScrollRange.fullRange`: Use this to animate from the moment the widget
 ///   appears at the bottom to the moment it disappears at the top.

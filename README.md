@@ -531,3 +531,46 @@ class MyEntrancePolicy implements EntrancePolicy {
   }
 }
 ```
+
+## ScrollRange
+
+The `ScrollRange` class defines the range used to determine progress in a scroll
+progress widget, such as `SliverPositionAnimation`, `ScrollProgressFlow`, or
+`ParallaxWindow`.
+
+By using your own `ScrollRange`, you can change whether these animations begin
+or end before the widget is fully scrolled on screen, tune them via custom
+offsets and padding, or even set the animation to reach 100% effect in the
+middle and reverse the animation as the widget is scrolled out of view.
+
+The default implementations are available via factory constructors:
+
+- `ScrollRange.fullRange`: Use this to animate from the moment the widget
+  appears at the bottom to the moment it disappears at the top.
+- `ScrollRange.fullyVisibleRange`: Use this to animate from the moment the
+  widget is fully visible at the bottom to the moment it is fully visible at
+  the top.
+- `ScrollRange.topVisibleRange`: Use this to animate from the moment the top
+  of the widget is visible at the bottom of the page to the moment the top
+  of the widget passes the top of the scroll view.
+- `ScrollRange.centerVisibleRange`: Use this to animate from the moment the
+  center of the widget is visible at the bottom of the page to the moment
+  the center of the widget passes the top of the scroll view.
+- `ScrollRange.bottomVisibleRange`: Use this to animate from the moment the
+  bottom of the widget is visible at the bottom of the page to the moment
+  the bottom of widget passes the top of the scroll view.
+
+To set the middle of a range to be 100% progress, first use one of the above
+constructors, and then call `distanceFrom(lowerBound, upperBound)` to create a
+new range. The new range's progress will go from 0% at the bottom of the range,
+to 100% at `lowerBound`, stay at 100% until `upperBound`, and then go to 0% at
+the top. `lowerBound` and `upperBound` should be between 0.0 and 1.0.
+
+This class also has methods other to refine a scroll range. See `.inverse`,
+`.subrange(lowerBound, upperBound)`, `.offset(pixels)`,
+`.withScrollPadding(top: pixels, bottom: pixels)`, and
+`withChildMargin(top: pixels, bottom: pixels)`.
+
+You can use one of these implementations and methods to create your scroll
+range, or you can create your own entirely custom behavior by extending this
+class and overriding the behavior of the `progress()` method.
