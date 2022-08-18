@@ -17,6 +17,7 @@ class ParentOffsetFlow extends StatelessWidget {
   final Widget child;
   final Listenable? repaint;
   final BuildContext parentContext;
+  final BoxConstraints? childBoxConstraints;
 
   const ParentOffsetFlow({
     Key? key,
@@ -25,6 +26,7 @@ class ParentOffsetFlow extends StatelessWidget {
     this.clipBehavior = Clip.none,
     this.transformAlignment = Alignment.center,
     required this.child,
+    this.childBoxConstraints,
     this.repaint,
     required this.parentContext,
   }) : super(key: key);
@@ -40,6 +42,7 @@ class ParentOffsetFlow extends StatelessWidget {
         buildTransform: buildTransform ?? (_, {Size? childSize, Size? parentSize}) => Matrix4.identity(),
         buildOpacity: buildOpacity ?? (_, {Size? childSize, Size? parentSize}) => 1.0,
         transformAlignment: transformAlignment,
+        childBoxConstraints: childBoxConstraints,
         repaint: repaint,
       ),
     );
@@ -47,11 +50,12 @@ class ParentOffsetFlow extends StatelessWidget {
 }
 
 class _ParentOffsetFlowDelegate extends FlowDelegate {
-  BuildContext context;
-  BuildContext parentContext;
-  Matrix4 Function(Offset, {required Size childSize, required Size parentSize}) buildTransform;
-  double Function(Offset, {required Size childSize, required Size parentSize}) buildOpacity;
-  Alignment transformAlignment;
+  final BuildContext context;
+  final BuildContext parentContext;
+  final Matrix4 Function(Offset, {required Size childSize, required Size parentSize}) buildTransform;
+  final double Function(Offset, {required Size childSize, required Size parentSize}) buildOpacity;
+  final Alignment transformAlignment;
+  final BoxConstraints? childBoxConstraints;
 
   _ParentOffsetFlowDelegate({
     required this.context,
@@ -59,12 +63,18 @@ class _ParentOffsetFlowDelegate extends FlowDelegate {
     required this.buildTransform,
     required this.buildOpacity,
     required this.transformAlignment,
+    this.childBoxConstraints,
     Listenable? repaint,
   }) : super(repaint: repaint);
 
   // TODO: should this be false? Check build functions?
   @override
   bool shouldRepaint(_ParentOffsetFlowDelegate oldDelegate) => true;
+
+  @override
+  BoxConstraints getConstraintsForChild(int i, BoxConstraints outer) {
+    return childBoxConstraints ?? outer;
+  }
 
   @override
   Size getSize(BoxConstraints constraints) => const Size(0, 0);

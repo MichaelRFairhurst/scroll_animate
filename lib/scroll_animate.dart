@@ -15,3 +15,4 @@ export 'package:scroll_animate/src/sliver_position_animation.dart';
 export 'package:scroll_animate/src/sliver_parallax.dart';
 export 'package:scroll_animate/src/sliver_fitted_parallax.dart';
 export 'package:scroll_animate/src/parallax_scroll_center.dart';
+export 'package:scroll_animate/src/parallax_window.dart';

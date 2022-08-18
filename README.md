@@ -412,6 +412,63 @@ CustomScrollView(
   ],
 )
 ```
+
+### ParallaxWindow
+![parallax_window_demo](https://storage.googleapis.com/scroll_animate_videos/parallax_window_demo.gif)
+
+_Note: This widget is not a Sliver. To use it as a sliver, wrap it in a
+`SliverToBoxAdapter`._
+
+A `ParallaxWindow` is a widget that can create the appearance of a window into a
+background view, which then moves during scroll, creating a parallax effect.
+
+Provide a child widget, and note that it will be layouted without constraints,
+in order to let it layout at its "natural" size. This is useful for `Image()`
+widgets, but others may need to be wrapeed in a `SizedBox` etc. Usually, the
+child widget should be larger than this widget's parent. Then the child widget
+will be only partially painted, in order to fit inside the window.
+
+The offset of how the child widget is painted to fit will change over time as
+the user scrolls. By default, `ParallaxWindow` shows `bottomCenter` as the
+widget is scrolled into view, and that animates to `topCenter` as the widget is
+scrolled the rest of the way. You can customize this by providing a custom
+`Alignment` tween, controlling which part shows at the end of scroll vs the
+beginning of scroll.
+
+
+```dart
+ListView(
+  children: <Widget>[
+    ...
+    SizedBox(
+      // Size the ParallaxWindow, or embed it within any layout
+      height: 150,
+      child: ParallaxWindow(
+        // Use an image or other oversized background.
+        child: Image(...),
+
+        // optionally change the alignment transition:
+        alignmentTween: AlignmentTween(
+          // used at the bottom of the scroll
+          begin: Alignment.topLeft,
+          // used at the top of the scroll
+          end: Alignment.bottomCenter,
+        ),
+      ),
+    ),
+    ...
+  ],
+)
+```
+
+You can also get a unique effect by specifying a custom `Curve`, which changes
+how scroll progress is used to interpolate alignment progress.
+
+You can also customize the scroll range in which the parallax effect occurs by
+providing a custom `ScrollRange`. See `ScrollRange` for more, but note that this
+may not work the way you expect when used in a `ParallaxWindow`, and that
+usually the default of a `FullScrollRange` is desired.
+
 ## Other Classes
 
 ### ParallaxScrollCenter

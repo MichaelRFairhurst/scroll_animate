@@ -40,7 +40,7 @@ class RenderShrinkFlow extends RenderFlow {
     super.performLayout();
 
     if (firstChild != null) {
-      size = firstChild!.size;
+      size = constraints.constrain(firstChild!.size);
     }
   }
 }

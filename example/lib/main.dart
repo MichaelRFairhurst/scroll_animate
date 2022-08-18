@@ -60,6 +60,7 @@ class MyHomePage extends StatelessWidget {
           _singleWidgetLauncher(_demoSliverPositionAnimation()),
           _singleWidgetLauncher(_demoScrollPositionFlow()),
           _singleWidgetLauncher(_demoEntranceAnimationFlow()),
+          _singleWidgetLauncher(_demoParallaxWindow()),
         ],
       ),
     );
@@ -386,6 +387,7 @@ ScrollPositionFlow.animateScale(
       builder: (context, child) {
         return SliverToBoxAdapter(
           child: ScrollPositionFlow.animateScale(
+            scrollRange: ScrollRange.centerVisibleRange().distanceFrom(0.4, 0.6),
             scaleTween: Tween(begin: 0.0, end: 1.0),
             child: child,
           ),
@@ -418,4 +420,42 @@ EntranceAnimationFlow(
       },
     );
   }
+
+  SingleWidgetDemo _demoParallaxWindow() {
+    int i = 0;
+    return SingleWidgetDemo(
+      text: "ParallaxWindow",
+      spacersBefore: 2,
+      examplesCount: 5,
+      spacersAfter: 5,
+      code: """
+RoundedBox(
+  child: ParallaxWindow(
+    child: Image.asset(...),
+  ),
+)
+""",
+      builder: (context, child) {
+        return SliverToBoxAdapter(
+          child: Container(
+            height: 150,
+            margin: EdgeInsets.all(16),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(16)),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: ParallaxWindow(
+              child: SizedBox(
+                height: i++ * 200 + 350,
+                child: Image.asset(
+                  'assets/fluttercodeimg.jpeg',
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
+
